@@ -14,29 +14,30 @@
 
 **Flow of Event for Main Success Scenario:**
 
-→ 1. **User** Either click "record" buttum to start record the melody, or note the melody using numbered musical notations. 
+→ 1. **User** (a) clicks "Import" buttom to import the first piece melody from MIDI file, or (b) note the melody using numbered musical notations. 
 
-← 2. **Visulizer** Display the user input
+← 2. **Visulizer** Display user's input.
 
 
 
 ## Responsibilities
 
-| Responsibility Description                                     | Concept Name       |
-| -------------------------------------------------------------- | ------------------ |
-| Rs1. Record the generated melody from record device.           | Recorder           |
-| Rs2. Translate the recorded melody to numbered musial notations| Translator         |
-| Rs3. numbered musical notations edit inteface                  | Editor             |
+| Responsibility Description                                   | Concept Name |
+| ------------------------------------------------------------ | ------------ |
+| Rs1. Read the music data from MIDI file.                     | Reader       |
+| Rs2. Translate the MIDI data to numbered musial notations.   | Translator   |
+| Rs3. Graphical interface that allows to edit the numbered musical notations . | Editor       |
 
 ## Associations
 
-| Concept Pair          | Association description                                      | Association name |
-| --------------------- | ------------------------------------------------------------ | ---------------- |
-| Recorder-Translator   | Recorder pass the melody to translator 					   | provides melody  |
-| Translator-Editor     | Translator pass the notations to Translator-Editor		   | provides melody  |
+| Concept Pair      | Association description                            | Association name           |
+| ----------------- | -------------------------------------------------- | -------------------------- |
+| Reader↔Translator | Recorder pass the music data to translator         | provides MIDI data         |
+| Translator↔Editor | Translator pass the notations to Translator-Editor | provides misical notations |
 
 ## Attributes
 
-| Concept            | Attributes      | Attribute Description                                    |
-| ------------------ | --------------- | -------------------------------------------------------- |
-| Recorder           | sound data      | sound data of the melody	                              |
+| Concept | Attributes     | Attribute Description          |
+| ------- | -------------- | ------------------------------ |
+| Reader  | MIDI data      | MIDI data read from files      |
+| Editor  | notations data | user's noted musical notations |
