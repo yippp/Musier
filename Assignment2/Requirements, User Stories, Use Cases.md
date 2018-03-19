@@ -25,7 +25,7 @@
 | ST-5       | As a user with rich music knowledge, I can audition the generated melody, mark the unsatisfactory part and let the program regenerate. | 10 points |
 | ST-6       | As a trainer, I can add models and adjust the parameters     | 5 points  |
 
-## User Cases
+## Use Cases
 
 | Actor      | Actor's Goal                                                 | Use Case Name       |
 | ---------- | ------------------------------------------------------------ | ------------------- |

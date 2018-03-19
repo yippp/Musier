@@ -1,4 +1,4 @@
-## User Case Audiction(UC-4)
+## Use Case Audiction(UC-4)
 
 **Related Requirements:** REQ8 & REQ9
 
