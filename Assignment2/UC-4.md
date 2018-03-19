@@ -10,7 +10,7 @@
 
 **Preconditions:** The generator has generated a melody.
 
-**Postconditions:** The program save the melody.
+**Postconditions:** The program saves the melody.
 
 **Flow of Event for Main Success Scenario:**
 
