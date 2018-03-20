@@ -14,7 +14,7 @@
 
 **Flow of Event for Main Success Scenario:**
 
-→ 1. **User** clicks the button "Play".
+→ 1. **User** clicks the button "Play/Pause".
 
 ← 2. **Visualizer** (a) plays the melody and (b) visualizes the melody in the graphic interface. 
 
@@ -50,11 +50,13 @@
 
 ## Attributes
 
-| Concept            | Attributes      | Attribute Description                                    |
-| ------------------ | --------------- | -------------------------------------------------------- |
-| Receiver           | config          | Style, tonality and duration.                            |
-| Visualizer         | music score     | Visualize the melody.                                    |
-|                    | current moment  | Visualize the current moment in the score during playing.|
-| Tag                | tag information | Store the start and end position of each tagged part.    |
-| Regenerate Request | tag information | Copied from tag; send the information to generator.      |
+| Concept            | Attributes      | Attribute Description                                     |
+| ------------------ | --------------- | --------------------------------------------------------- |
+| Receiver           | config          | Style, tonality and duration.                             |
+|                    | melody          | The generated melody.                                     |
+| Visualizer         | music score     | Visualize the melody.                                     |
+|                    | current moment  | Visualize the current moment in the score during playing. |
+| Tag                | tag information | Store the start and end position of each tagged part.     |
+| Regenerate Request | tag information | Copied from tag; send the information to generator.       |
+
 
