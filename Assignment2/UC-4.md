@@ -1,4 +1,4 @@
-## Use Case Audiction(UC-4)
+## Use Case Audiction (UC-4)
 
 **Related Requirements:** REQ8 & REQ9
 
@@ -6,7 +6,7 @@
 
 **Actor's Goal:** To audition the genrated melody and tag the unsatisfactory part.
 
-**Participating Actor:** Visualizer
+**Participating Actor:** Visualizer, Generator
 
 **Preconditions:** The generator has generated a melody.
 
