@@ -29,11 +29,11 @@
 
 | Actor      | Actor's Goal                                                 | Use Case Name   |
 | ---------- | ------------------------------------------------------------ | --------------- |
-| User       | To configurate the tonality, style and get the generated melody and specify the fisrt piece of music used to generate melody. | Config (UC-1)   |
+| User       | To configure the tonality and the style so as to get the generated melody. Or to specify the first piece of music to generate melody. | Config (UC-1)  |
 | Trainer    | To train the model based on collected MIDI files and adjust the parameters which are used to generate the melody and add into configuration list. | Train (UC-3)    |
 | Generator  | To generate the melody based on the configurations.          | UC-1            |
 | User       | To audition the generated melody and tag the unsatisfactory parts that needed to regenerate. | Audition (UC-4) |
-| Visualizer | To visualize the generated melody, the current playing postition and the taged parts. | UC-4            |
+| Visualizer | To visualize the generated melody, the current playing position and the tagged parts. | UC-4            |
 | User       | To save the generated melogy as MIDI or audio files.         | Save (UC-5)     |
 
 ​                                                                             
