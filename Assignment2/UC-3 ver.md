@@ -1,4 +1,4 @@
-## Use Case Audition (UC-3)
+## Use Case - Audition (UC-3)
 
 **Related Requirements:** REQ8 & REQ10
 
