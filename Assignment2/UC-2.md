@@ -36,35 +36,37 @@
 
 → 2. **Developer** (a) modifies the training settings or (b) modifies the parameters in the configuration source code.
 
+
+
 ## Responsibilities
 
-| Responsibility Description                                   | Concept Name |
-| ------------------------------------------------------------ | ------------ |
-| Rs1. Receive the training settings and parameters.           | Receiver     |
-| Rs2. Load the training MIDI files.                           | Loader       |
-| Rs3. Process the training data and adjust the model.         | Processor    |
+| Responsibility Description               | Concept Name |
+| ---------------------------------------- | ------------ |
+| Rs1. Receive the training settings and parameters. | Receiver     |
+| Rs2. Load the training MIDI files.       | Loader       |
+| Rs3. Process the training data and adjust the model. | Processor    |
 | Rs4. Print the logs including training and generation information. | Printer      |
-| Rs5. Update the configuration lists.                         | Updater      |
+| Rs5. Update the configuration lists.     | Updater      |
 
 ## Associations
 
-| Concept Pair       | Association description                                      | Association name         |
-| ------------------ | ------------------------------------------------------------ | ------------------------ |
+| Concept Pair       | Association description                  | Association name         |
+| ------------------ | ---------------------------------------- | ------------------------ |
 | Loader↔Processor   | Loader passes the loaded files to Processor to process the training data. | provides training set    |
 | Receiver↔Processor | Receiver passes the received parameters and training settings to Processor to control the training process. | provides parameters      |
-| Processor↔Printer   | Processor passes the information for training regeneration to the Printer. | provides training logs   |
-| Generator↔Printer   | Generator passes the information for training regeneration to the Printer. | provides generation logs |
+| Processor↔Printer  | Processor passes the information for training regeneration to the Printer. | provides training logs   |
+| Generator↔Printer  | Generator passes the information for training regeneration to the Printer. | provides generation logs |
 | Receiver↔Updater   | Receiver passes the received configurations to Updater to update the configuration lists. | provides configurations  |
 
 ## Attributes
 
-| Concept   | Attributes     | Attribute Description                                 |
-| --------- | -------------- | ----------------------------------------------------- |
-| Processor | settings       | The settings for training.                            |
-|           | training set   | The training set used to train the model.             |
-|           | model          | The trained model used to generate melody.            |
-| Receiver  | parameters     | The inputted parameters.                              |
-|           | settings       | The settings for training.                            |
-| Loader    | dataset        | The loaded MIDI dataset.                              |
+| Concept   | Attributes     | Attribute Description                    |
+| --------- | -------------- | ---------------------------------------- |
+| Processor | settings       | The settings for training.               |
+|           | training set   | The training set used to train the model. |
+|           | model          | The trained model used to generate melody. |
+| Receiver  | parameters     | The inputted parameters.                 |
+|           | settings       | The settings for training.               |
+| Loader    | dataset        | The loaded MIDI dataset.                 |
 | Printer   | logs           | Store the logs received from Processor and Generator. |
-| Updater   | configurations | Configurations received from Receiver                 |
+| Updater   | configurations | Configurations received from Receiver    |

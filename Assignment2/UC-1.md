@@ -24,7 +24,9 @@
 
 ← 2. **Visualizer** displays the user’s input. 
 
-→ 3. **System** (a) saves the file made by the **User **and (b) sends the data to the **Generator** to generate music. 
+→ 3. **System** (a) saves the file made by the **User **and (b) sends the data to the **Generator** to generate music.
+
+ 
 
 ## Responsibilities
 
