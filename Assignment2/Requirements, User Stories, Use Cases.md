@@ -35,5 +35,6 @@
 | User       | To audition the generated melody and tag the unsatisfactory parts which need to be regenerated. | Audition (UC-3) |
 | Visualizer | To visualize the generated melody, the current playing position and the tagged parts. | UC-3            |
 | User       | To save the generated melogy as MIDI or audio files.         | Save (UC-4)     |
+| Trainer | To train the generation model based on collected MIDI files. | UC-2 |
 
 ​                                                                             
