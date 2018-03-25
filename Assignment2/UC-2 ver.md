@@ -1,4 +1,4 @@
-## Use Case Train (UC-3)
+## Use Case - Train (UC-2)
 
 **Related Requirements:** REQ3
 
