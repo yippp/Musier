@@ -249,7 +249,7 @@ Alternative scenario (Generator cannot generate a test melody normally):
 
 ![52207089975](/1522070899755.png)
 
-## User Case UC-3 Audiction
+## User Case UC-3 Audition
 
 ### Detailed Formula
 
