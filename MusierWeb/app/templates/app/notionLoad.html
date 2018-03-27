@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Musier</title>
+		<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'app/notionLoad.css' %}" />
+	<script type="text/javascript" src="{% static 'app/jquery-1.11.2.min.js' %}"></script>
+</head>
+<body>
+       <div class="container bg">
+       		<div class="row forms">
+       			<from action="/Dashborad" method="POST">
+       			<div class="form-group col-lg-4 style-margin">
+       				<label class="label-control control-label col-lg-4">Tonality</label>
+       				<div class="col-lg-8">
+	       				<select name = "Tonality" class="form-control">
+							<option value="1" class="Tonality">C</option>
+		                    <option value="2" class="Tonality">#C</option>
+		                    <option value="3" class="Tonality">D</option>
+		                    <option value="4" class="Tonality">#D</option>
+		                    <option value="5" class="Tonality">E</option>
+		                    <option value="6" class="Tonality">F</option>
+		                    <option value="7" class="Tonality">#F</option>
+		                    <option value="8" class="Tonality">G</option>
+		                    <option value="9" class="Tonality">#G</option>
+		                    <option value="10" class="Tonality">A</option>
+		                    <option value="11" class="Tonality">#A</option>
+		                    <option value="12" class="Tonality">B</option>
+						</select>
+       				</div>
+       			</div>
+       			<div class="form-group col-lg-4">
+       				<label class="label-control control-label col-lg-4">Meter</label>
+       				<div class="col-lg-8">
+	       				<select name = "Meter" class="form-control">
+							<option value="1" class="Meter">3/4</option>
+		                    <option value="2" class="Meter">4/4</option>
+		                    <option value="3" class="Meter">6/8</option>
+		                </select>
+       				</div>
+       			</div>
+       			<div class="form-group col-lg-8 style-margin">
+       				<textarea class="form-control" rows="6" name="notions" id="inputArea"></textarea>
+       			</div>
+       			<div class="style-margin pull-right">
+       				<span>Input number, use w、s contrling the pich，use a、d controling the duration.  </span><input class="btn btn-default " type="submit" value="Click Here To Go"/>
+       			</div>
+
+       		</from>
+       		</div>  	
+       </div>
+<script type="text/javascript">
+function copyToClipboard(maintext){
+  if (window.clipboardData){
+    window.clipboardData.setData("Text", maintext);
+    }else if (window.netscape){
+      try{
+        netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+    }catch(e){
+        alert("该浏览器不支持一键复制！n请手工复制文本框链接地址～");
+    }
+    var clip = Components.classes['@mozilla.org/widget/clipboard;1'].createInstance(Components.interfaces.nsIClipboard);
+    if (!clip) return;
+    var trans = Components.classes['@mozilla.org/widget/transferable;1'].createInstance(Components.interfaces.nsITransferable);
+    if (!trans) return;
+    trans.addDataFlavor('text/unicode');
+    var str = new Object();
+    var len = new Object();
+    var str = Components.classes["@mozilla.org/supports-string;1"].createInstance(Components.interfaces.nsISupportsString);
+    var copytext=maintext;
+    str.data=copytext;
+    trans.setTransferData("text/unicode",str,copytext.length*2);
+    var clipid=Components.interfaces.nsIClipboard;
+    if (!clip) return false;
+    clip.setData(trans,null,clipid.kGlobalClipboard);
+  }
+  alert("以下内容已经复制到剪贴板nn" + maintext);
+}
+
+    //使用方法 
+    //$(文本域选择器).insertContent("插入的内容"); 
+    //在光标位置插入内容, 并选中 
+    (function($) { 
+    $.fn.extend({ 
+        insertContent: function(myValue, t) { 
+            var $t = $(this)[0]; 
+            if (document.selection) { //ie 
+                this.focus(); 
+                var sel = document.selection.createRange(); 
+                sel.text = myValue; 
+                this.focus(); 
+                sel.moveStart('character', -l); 
+                var wee = sel.text.length; 
+                if (arguments.length == 2) { 
+                var l = $t.value.length; 
+                sel.moveEnd("character", wee + t); 
+                t <= 0 ? sel.moveStart("character", wee - 2 * t - myValue.length) : sel.moveStart("character", wee - t - myValue.length); 
+                sel.select(); 
+                } 
+            } else if ($t.selectionStart || $t.selectionStart == '0') { 
+                var startPos = $t.selectionStart; 
+                var endPos = $t.selectionEnd; 
+                var scrollTop = $t.scrollTop; 
+                $t.value = $t.value.substring(0, startPos) + myValue + $t.value.substring(endPos, $t.value.length); 
+                this.focus(); 
+                $t.selectionStart = startPos + myValue.length; 
+                $t.selectionEnd = startPos + myValue.length; 
+                $t.scrollTop = scrollTop; 
+                if (arguments.length == 2) { 
+                $t.setSelectionRange(startPos - t, $t.selectionEnd + t); 
+                this.focus(); 
+                } 
+            } 
+            else { 
+            this.value += myValue; 
+            this.focus(); 
+            } 
+        } 
+        }) 
+    })(jQuery);
+    function isNum(s)
+    {
+        if(s!=null){
+            var r,re;
+            re = /\d*/i; //\d表示数字,*表示匹配多个数字
+            r = s.match(re);
+            return (r==s)?true:false;
+        }
+        return false;
+    }
+</script>
+<script type="text/javascript">
+    
+    //文本框输入
+    $("#inputArea").keypress(function(event){
+        var k = event.which; 
+        k = String.fromCharCode(k);
+        if (k == "|") {
+            $(this).insertContent("|");
+        };
+        if (isNaN(k)) {
+            switch(k){
+                case "w": $(this).insertContent("'");break;
+                case "s": $(this).insertContent(".");break;
+                case "d": $(this).insertContent("+");break;
+                case "a": $(this).insertContent("-");break;
+            }
+            return false;
+        };
+        $(this).insertContent(k); 
+        return false;
+    });
+</script>
+</body>
+</html>
