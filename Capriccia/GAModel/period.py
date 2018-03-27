@@ -3,9 +3,13 @@ from copy import deepcopy
 
 class unit:
     def __init__(self, notes = None, chordID = 0):
-        self.notes = deepcopy(notes)
-        self.length = len(notes)
+        if notes == None:
+            self.notes = []
+        else:
+            self.notes = deepcopy(notes)
+        self.length = len(self.notes)
         self.chordID = chordID
+        self.score = NULL_SCORE
 
     def __getitem__(self, i):
         return self.notes[i]
@@ -15,8 +19,12 @@ class unit:
 
 class period:
     def __init__(self, units = None):
-        self.units = deepcopy(units)
-        self.length = len(units)
+        if units == None:
+            self.units = []
+        else:
+            self.units = deepcopy(units)
+        self.length = len(self.units)
+        self.score = NULL_SCORE
 
     def __getitem__(self, i):
         return self.units[i]
@@ -29,11 +37,16 @@ class period:
 
     def append(self, u):
         self.units.append(u)
+        self.length += 1
 
     def extend(self, p):
         self.units.extend(p)
+        self.length += p.length
 
-    def notes(self):
+    def get_notes(self):
+        '''
+        :return: A list containing all the notes of the melody.
+        '''
         notes = []
         for u in self.units:
             notes.extend(u.notes)

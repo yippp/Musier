@@ -1,87 +1,111 @@
 from settings import *
-
-
-class Chromosome:
-    # TODO initialization
-    def __init__(self,):
-        self.genes = []
-        self.chromosome_length = 0
-        self.score = 0
-
+from GAModel.period import unit, period
+import random
+from copy import deepcopy
 
 class GABase:
-    def __init__(self, cross_rate, mutation_rate, generation_count, chromosome_length, init_p_generation,
-                 evaluation_func=lambda chromosome: 1):
-        """
-        TODO better initialization way
-        :param cross_rate:
-        :param mutation_rate:
-        :param generation_count:
-        :param chromosome_length:
-        :param evaluation_func:
-        """
-        self.cross_rate = cross_rate
-        self.mutation_rate = mutation_rate
-        self.gene_database = []
-        self.generation = []  # list of Chromosome
-        self.generation_count = generation_count
-        self.chromosome_length = chromosome_length
-        self.evaluation_func = evaluation_func
-        self.generation_score = 0
+    def __init__(self, period_cross_rate, period_mutation_rate,
+                 unit_cross_rate, unit_mutation_rate,
+                 init_generation, unit_evaluation=lambda u:0, period_evaluation=lambda p:0):
 
-        self.init_p_generation(init_p_generation)
+        self.period_cross_rate = period_cross_rate
+        self.period_mutation_rate = period_mutation_rate
+        self.unit_cross_rate = unit_cross_rate
+        self.unit_mutation_rate = unit_mutation_rate
+        self.generation = []  # list of chromosomes (periods)
+        self.population = len(init_generation)
+        self.period_length = init_generation[0].length #the number of units each period contains
+        self.unit_length = init_generation[0][0].length #the number of notes each unit contains
+        self.unit_evaluation = unit_evaluation
+        self.period_evaluation = period_evaluation
+        self.init_p_generation(init_generation)
+        self.sum_score = 0.0
+        self.best_period = None
+
+        #self.generation_score = 0
 
     def init_p_generation(self, input_p_generation):
+        self.generation = deepcopy(input_p_generation)
+
+    def cross_periods(self, p1, p2):
+        l1 = random.randint(0, self.period_length - 1)
+        r1 = random.randint(0, self.period_length - 1)
+        if l1 > r1:
+            l1, r1 = r1, l1
+        l2 = random.randint(0, self.period_length - 1 - (r1 - l1))
+        r2 = l2 + (r1 - l1)
+        new_period = period()
+        for i in range(l2):
+            new_period.append(p2[i])
+        for i in range(l1, r1 + 1):
+            new_period.append(p1[i])
+        for i in range(r2 + 1, self.period_length):
+            new_period.append(p2[i])
+        return new_period
+
+    def mutate_period(self, p):
         """
-        TODO define the initialization way for group, may not all by inputting
-        :param input_p_generation:
+        TODO Update is with one or more mutation methods (reverse, change_chord, etc.)
+        :param p:
         :return:
         """
-        # self.generation = input_p_generation
+        ran = random.randint(0, self.period_length - 1)
+        new_period = p
+        new_period[ran].notes[0] += random.randint(-5, 5)
+        return new_period
+
+    def choose_period(self):
+        '''
+        TODO Implement other choosing functions and evaluate whether they are better.
+        :return: A period chosen by "roulette wheel" method.
+        '''
+        ran = random.uniform(0, self.sum_score)
+        for p in self.generation:
+            ran -= p.score
+            if ran <= 0:
+                return p
+        raise Exception('Error: Wrong sum_score.')
+
+    def produce_period(self):
+        '''
+        TODO Try adding unit_level variation in this method.
+        :return: A period instance produced by cross and mutation.
+        '''
+        p1 = self.choose_period()
+
+        # Judge whether p1 crosses with another period
+        ran = random.random()
+        if ran < self.period_cross_rate:
+            p2 = self.choose_period()
+            new_period = self.cross_periods(p1, p2)
+        else:
+            new_period = p1
+
+        # Judge whether new_period mutates
+        ran = random.random()
+        if ran < self.period_mutation_rate:
+            new_period = self.mutate_period(new_period)
+        return new_period
+
+    def update_periods(self):
+        self.update_scores()
+        new_generation = []
+        new_generation.append(deepcopy(self.best_period))
+        for i in range(self.population - 1):
+            new_generation.append(self.produce_period())
+        # self.environment_update()
+        self.generation = new_generation
+
+    def cross_units(self):
+        """
+        TODO do the cross between the units
+        """
         pass
 
-    def init_environment(self):
+    def mutate_unit(self):
         """
-        TODO initialize environment including following variables
-        :return:
+        TODO do the mutation of a unit
         """
-        # self.cross_rate = self.cross_rate
-        # self.mutation_rate = self.mutation_rate
-        # self.gene_database = self.gene_database
-        # self.chromosome_length = self.chromosome_length
-        # self.evaluation_func = self.evaluation_func
-        pass
-
-    def update(self):
-        self.evolve()
-        self.environment_update()
-        self.natural_selection()
-
-    def evolve(self):
-        """
-        TODO except cross and mutate, other evolution may occur
-        :return:
-        """
-        self.cross()
-        self.mutate()
-        self.generation_count += 1
-
-    def cross(self):
-        """
-        TODO do the cross between the generation
-        :return:
-        """
-        # self.generation = self.generation
-        # self.gene_database = self.gene_database
-        pass
-
-    def mutate(self):
-        """
-        TODO do the mutation between the generation
-        :return:
-        """
-        # self.generation = self.generation
-        # self.gene_database = self.gene_database
         pass
 
     def environment_update(self):
@@ -96,39 +120,29 @@ class GABase:
         # self.evaluation_func = self.evaluation_func
         pass
 
-    def natural_selection(self):
-        """
-        Update generation_score and select new generation according to evaluation_function
-        TODO update the generation
-        :return:
-        """
-        for chromosome in self.generation:
-            chromosome.score = self.evaluation_func(chromosome)
-        try:
-            # self.generation = self.generation  # TODO select chromosome in generation
-            # self.gene_database = self.gene_database  # TODO after selection, update self.gene_database
-            self.update_gen_score()
-        except ZeroDivisionError:
-            print("All chromosomes in the generation were eliminated by the environment.")
-            # self.generation = self.generation  # TODO: revert this evolution, this should happen before self.evolve()
+    def update_scores(self):
+        self.sum_score = 0.0
+        self.best_period = self.generation[0]
+        for p in self.generation:
+            for u in p:
+                u.score = self.unit_evaluation(u)
+            p.score = self.period_evaluation(p)
+            self.sum_score += p.score
+            if self.best_period.score < p.score:
+                self.best_period = p
 
-    def update_gen_score(self):
-        """
-        Update self.generation_score according to current self.generation
-        :return:
-        """
-        gen_score = 0
-        for chromosome in self.generation:
-            gen_score += chromosome.score
-        gen_score /= len(self.generation)
-
-    def output_if(self, condition=lambda gen_score, gen: gen_score >= 1):
-        """
-        Interface
-        output an result if the condition is satisfied
-        :param condition: function, default self.generation_score >= 1
-        :return: self.generation
-        """
-        while not condition(self.generation_score, self.generation):
-            self.update()
-        return self.generation
+    # def natural_selection(self):
+    #     """
+    #     Update generation_score and select new generation according to evaluation_function
+    #     TODO update the generation
+    #     :return:
+    #     """
+    #     for chromosome in self.generation:
+    #         chromosome.score = self.evaluation_func(chromosome)
+    #     try:
+    #         # self.generation = self.generation  # TODO select chromosome in generation
+    #         # self.gene_database = self.gene_database  # TODO after selection, update self.gene_database
+    #         self.update_gen_score()
+    #     except ZeroDivisionError:
+    #         print("All chromosomes in the generation were eliminated by the environment.")
+    #         # self.generation = self.generation  # TODO: revert this evolution, this should happen before self.evolve()
