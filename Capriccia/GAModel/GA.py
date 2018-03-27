@@ -5,13 +5,13 @@ from copy import deepcopy
 
 class GABase:
     def __init__(self, period_cross_rate, period_mutation_rate,
-                 unit_cross_rate, unit_mutation_rate,
+                 temperature, temperature_delta,
                  init_generation, unit_evaluation=lambda u:0, period_evaluation=lambda p:0):
 
         self.period_cross_rate = period_cross_rate
         self.period_mutation_rate = period_mutation_rate
-        self.unit_cross_rate = unit_cross_rate
-        self.unit_mutation_rate = unit_mutation_rate
+        self.temperature = temperature
+        self.temperature_delta = temperature_delta
         self.generation = []  # list of chromosomes (periods)
         self.population = len(init_generation)
         self.period_length = init_generation[0].length #the number of units each period contains
@@ -32,6 +32,9 @@ class GABase:
         r1 = random.randint(0, self.period_length - 1)
         if l1 > r1:
             l1, r1 = r1, l1
+        if p1 == p2:
+            new_period = deepcopy(p1)
+            return new_period
         l2 = random.randint(0, self.period_length - 1 - (r1 - l1))
         r2 = l2 + (r1 - l1)
         new_period = period()
@@ -96,17 +99,30 @@ class GABase:
         # self.environment_update()
         self.generation = new_generation
 
+    def update_periods_with_SA(self):
+        self.update_scores_with_SA()
+        new_generation = []
+        new_generation.append(deepcopy(self.best_period))
+        for i in range(self.population - 1):
+            new_generation.append(self.produce_period())
+        # self.environment_update()
+        self.generation = new_generation
+
     def cross_units(self):
         """
         TODO do the cross between the units
         """
         pass
 
-    def mutate_unit(self):
-        """
-        TODO do the mutation of a unit
-        """
-        pass
+    def create_mutated_unit(self, u):
+        '''
+        :return: a new unit mutated from u
+        '''
+        u_m = deepcopy(u)
+        ran = random.randint(0, u.length - 1)
+        if u_m.notes[ran] != None:
+            u_m.notes[ran] = u_m.notes[ran] + random.randint(-5, 5)
+        return u_m
 
     def environment_update(self):
         """
@@ -119,6 +135,29 @@ class GABase:
         # self.chromosome_length = self.chromosome_length
         # self.evaluation_func = self.evaluation_func
         pass
+
+    def update_scores_with_SA(self):
+        """
+        1. Using Simulated annealing algorithm to update the units, calculate their score.
+        2. Calculate the score of each period.
+        :return:
+        """
+        self.sum_score = 0.0
+        self.best_period = self.generation[0]
+        for j in range(len(self.generation)):
+            p = deepcopy(self.generation[j])
+            for i in range(p.length):
+                temp = self.create_mutated_unit(p.units[i])
+                temp.update_chord_4()
+                temp.score = self.unit_evaluation(temp)
+                if temp.score > p.units[i].score:
+                    p.units[i] = deepcopy(temp) # else calculate the probability to update
+            self.generation[j] = p
+            p.score = self.period_evaluation(p)
+            self.sum_score += p.score
+            if self.best_period.score < p.score:
+                self.best_period = p
+        self.temperature *= self.temperature_delta
 
     def update_scores(self):
         self.sum_score = 0.0
