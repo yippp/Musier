@@ -1,6 +1,7 @@
 from settings import *
 from copy import deepcopy
 
+
 class unit:
     def __init__(self, notes=None, chordID=0):
         if notes is None:
@@ -24,7 +25,10 @@ class unit:
         """
         if (self.length == 0) or (self.length % 4 != 0):
             raise Exception('Error: Invalid unit length.')
-        n = (self[0] % 12, self[self.length // 2] % 12, self[self.length // 4] % 12, self[self.length * 3 // 4] % 12)
+        n = [self[0], self[self.length // 2], self[self.length // 4], self[self.length * 3 // 4]]
+        for i in range(4):
+            if n[i] is not None:
+                n[i] %= 12
         s = (12, 8, 2, 2)
         s_n = (4, 5, 1, 1)
         best = -1
@@ -41,6 +45,7 @@ class unit:
                 best_id = i
         self.chordID = best_id
         self.chord_score = best
+
 
 class period:
     def __init__(self, units=None):
