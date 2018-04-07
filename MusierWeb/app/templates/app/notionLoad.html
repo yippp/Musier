@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Musier</title>
+  {% load static %}
+  <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+  <script type="text/javascript" src="{% static 'app/jquery-1.11.2.min.js' %}"></script>
 		<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
 	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
 	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-	{% load static %}
-	<link rel="stylesheet" type="text/css" href="{% static 'app/notionLoad.css' %}" />
-	<script type="text/javascript" src="{% static 'app/jquery-1.11.2.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="{% static 'app/notionLoad.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'app/abcjs-midi.css' %}">
 </head>
 <body>
        <div class="container bg">
@@ -45,15 +50,54 @@
        				</div>
        			</div>
        			<div class="form-group col-lg-8 style-margin">
-       				<textarea class="form-control" rows="6" name="notions" id="inputArea"></textarea>
+       				<!-- <textarea class="form-control" rows="6" name="notions" id="inputArea"></textarea> -->
+              <textarea class="form-control" rows="12" name="notions" id="editor-textarea">
+X: 1
+T: Morrison's
+R: jig
+M: 6/8
+L: 1/8
+K: Edor
+|:E3 B3|EBE AFD|EDE B3|dcB AFD|
+E3 B3|EBE AFD|G3 FGA|dAG FED:|
+Bee fee|aee fee|Bee fee|a2g fed|
+Bee fee|aee fee|gfe d2A|BAG FGA|
+Bee fee|aee fee|Bee fee|faf def|
+g3 gfe|def g2d|edc d2A|BAG FED|
+              </textarea>
+              <div id = "notioanCanvas"></div>
+              <p>Warning Messeges:</p>
+              <div id= "warnings"></div>
+              <div id= "midi"></div>
        			</div>
        			<div class="style-margin pull-right">
        				<span>Input number, use w、s contrling the pich，use a、d controling the duration.  </span><input class="btn btn-default " type="submit" value="Click Here To Go"/>
        			</div>
+            <div class="style-margin pull-right btn btn-default"><a  id="midi_download"></a>
+            </div>
 
        		</from>
        		</div>  	
        </div>
+
+<script src="{% static 'app/abcjs_midi_4.0.1-min.js' %}" type="text/javascript"></script>
+<!-- <script src="{% static 'app/abcjs_basic_midi_3.2.1.js' %}" type="text/javascript"></script>
+ -->  <script type="text/javascript">
+  window.onload = function() {
+    abc_editor = new ABCJS.Editor(
+      "editor-textarea", { 
+        paper_id: "notioanCanvas", 
+        generate_midi: true, 
+        midi_id: "midi",
+        midi_download_id:"midi_download", 
+        warnings_id:"warnings", 
+        abcjsParams:{
+          generateInline: true,
+          generateDownload: true
+        }
+      });
+    }
+</script>
 <script type="text/javascript">
 function copyToClipboard(maintext){
   if (window.clipboardData){

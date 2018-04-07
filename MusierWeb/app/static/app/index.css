@@ -1,8 +1,11 @@
 .bg{
 	background-image: url('./img/Musier.png') ;
-	background-size: 100%;
+	background-size: 100% ;
 	background-color: #fcfaf2;
+	height: auto;
 }
+
+
 
 
 /**水平居中*/
