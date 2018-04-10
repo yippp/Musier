@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Musier</title>
   {% load static %}
-  <link rel="icon" href="favicon.ico" type="image/x-icon"/>
   <script type="text/javascript" src="{% static 'app/jquery-1.11.2.min.js' %}"></script>
 		<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
 	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -19,11 +18,12 @@
 <body>
        <div class="container bg">
        		<div class="row forms">
-       			<from action="/Dashborad" method="POST">
+       			<from action="/app/notionLoad/" method='POST' id="notion_form">
+            {% csrf_token %}
        			<div class="form-group col-lg-4 style-margin">
        				<label class="label-control control-label col-lg-4">Tonality</label>
        				<div class="col-lg-8">
-	       				<select name = "Tonality" class="form-control">
+	       				<select id = "Tonality" class="form-control">
 							<option value="1" class="Tonality">C</option>
 		                    <option value="2" class="Tonality">#C</option>
 		                    <option value="3" class="Tonality">D</option>
@@ -42,7 +42,7 @@
        			<div class="form-group col-lg-4">
        				<label class="label-control control-label col-lg-4">Meter</label>
        				<div class="col-lg-8">
-	       				<select name = "Meter" class="form-control">
+	       				<select id = "Meter" class="form-control">
 							<option value="1" class="Meter">3/4</option>
 		                    <option value="2" class="Meter">4/4</option>
 		                    <option value="3" class="Meter">6/8</option>
@@ -50,8 +50,15 @@
        				</div>
        			</div>
        			<div class="form-group col-lg-8 style-margin">
-       				<!-- <textarea class="form-control" rows="6" name="notions" id="inputArea"></textarea> -->
-              <textarea class="form-control" rows="12" name="notions" id="editor-textarea">
+       				<textarea class="form-control" rows="6" id="notions"  form="notion_form"></textarea>
+       			</div>
+       			<div class="style-margin pull-right">
+       				<span>Input number, use w、s contrling the pich，use a、d controling the duration.  </span><input class="btn btn-default " id = "submit" type="submit" value="Click Here To Go"/>
+       			</div>
+       		</from>
+
+          <div class="col-lg-8 style-margin">
+            <textarea class="form-control" rows="12"  id="editor-textarea" style="display: none">
 X: 1
 T: Morrison's
 R: jig
@@ -67,16 +74,12 @@ g3 gfe|def g2d|edc d2A|BAG FED|
               </textarea>
               <div id = "notioanCanvas"></div>
               <p>Warning Messeges:</p>
-              <div id= "warnings"></div>
+              <div id= "warnings" style="min-height: 40px;border: 1px solid grey;margin-bottom: 20px;">{{testmessege}}</div>
               <div id= "midi"></div>
-       			</div>
-       			<div class="style-margin pull-right">
-       				<span>Input number, use w、s contrling the pich，use a、d controling the duration.  </span><input class="btn btn-default " type="submit" value="Click Here To Go"/>
-       			</div>
-            <div class="style-margin pull-right btn btn-default"><a  id="midi_download"></a>
+              <div class="style-margin pull-right btn btn-default">
+              <a  id="midi_download"></a>
+              </div>
             </div>
-
-       		</from>
        		</div>  	
        </div>
 
@@ -199,6 +202,35 @@ function copyToClipboard(maintext){
         $(this).insertContent(k); 
         return false;
     });
+</script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $.ajaxSetup({
+       data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+    $('#notion_form').submit(function(){
+      var Tonality = $("#Tonality").val();                
+      var Meter = $("#Meter").val(); 
+      var notions = $("#notions").val();   
+      console.log(Tonality)
+      $.ajax({
+          type:"POST",
+          data: {Tonality:Tonality, Meter:Meter, notions,notions},
+          url: "", //后台处理函数的url 这里用的是static url 需要与urls.py中的name一致
+          cache: false,
+          dataType: "html",
+          success: function(result, statues, xml){                                    //成功时弹出view传回来的结果
+          },
+          error: function(){
+              alert("false");
+          }
+      });
+      return false;
+    });
+    $('#submit').click(function(){
+      $('#notion_form').submit();
+    });
+  });
 </script>
 </body>
 </html>
