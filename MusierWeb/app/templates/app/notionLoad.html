@@ -58,19 +58,8 @@
        		</from>
 
           <div class="col-lg-8 style-margin">
-            <textarea class="form-control" rows="12"  id="editor-textarea" style="display: none">
-X: 1
-T: Morrison's
-R: jig
-M: 6/8
-L: 1/8
-K: Edor
-|:E3 B3|EBE AFD|EDE B3|dcB AFD|
-E3 B3|EBE AFD|G3 FGA|dAG FED:|
-Bee fee|aee fee|Bee fee|a2g fed|
-Bee fee|aee fee|gfe d2A|BAG FGA|
-Bee fee|aee fee|Bee fee|faf def|
-g3 gfe|def g2d|edc d2A|BAG FED|
+            <textarea class="form-control" rows="12"  id="editor-textarea" style="">
+{{generated_notions}}
               </textarea>
               <div id = "notioanCanvas"></div>
               <p>Warning Messeges:</p>
@@ -219,7 +208,10 @@ function copyToClipboard(maintext){
           url: "", //后台处理函数的url 这里用的是static url 需要与urls.py中的name一致
           cache: false,
           dataType: "html",
-          success: function(result, statues, xml){                                    //成功时弹出view传回来的结果
+          success: function(result, statues, xml){  
+            console.log(JSON.parse(result).generated_notions) 
+            $('#editor-textarea').val(JSON.parse(result).generated_notions);
+            $('#editor-textarea').change();                  //成功时弹出view传回来的结果
           },
           error: function(){
               alert("false");
