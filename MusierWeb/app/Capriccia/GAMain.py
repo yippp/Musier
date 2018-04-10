@@ -50,7 +50,7 @@ def period_evaluation(p):
     return score
 
 
-def main_version_1():
+def main_version_1(Tonality, Meter, notions):
     init_generation = []
     population = 50
     period_length = 8
@@ -75,8 +75,7 @@ def main_version_1():
     model = GABase(0.6, 0.04, init_generation, period_evaluation)
     for k in range(update_time):
         model.update_periods()
-    print(model.generation[0])
     print(model.generation[0].score)
+    return(model.generation[0])
 
 
-main_version_1()
