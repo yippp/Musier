@@ -30,8 +30,8 @@ def notionLoad(request):
 		Meter = request.POST.get("Meter")
 		Tonality = request.POST.get("Tonality")
 		notions = request.POST.get("notions")
-		#Seq = main_version_1(Tonality, Meter, notions).get_notes()
-		Seq=[9, None, 2, 6, 2, None, -3, None, 0, None, 5, None, 12, None, 5, None, 9, 13, 9, None, 2, 0, None, 5, 9, None, 4, 2, 0, None, -3, None, 0, None, 5, 2, 5, None, 12, 9, 4, 6, None, 11, 9, None, 4, None, 9, None, 4, None, -3, 1, None, 6, -7, -3, None, None, None, None, None, None]
+		Seq = main_version_1(Tonality, Meter, notions).get_notes()
+		#Seq=[9, None, 2, 6, 2, None, -3, None, 0, None, 5, None, 12, None, 5, None, 9, 13, 9, None, 2, 0, None, 5, 9, None, 4, 2, 0, None, -3, None, 0, None, 5, 2, 5, None, 12, 9, 4, 6, None, 11, 9, None, 4, None, 9, None, 4, None, -3, 1, None, 6, -7, -3, None, None, None, None, None, None]
 		count = 1
 		note_count = 0
 		long_note = False
