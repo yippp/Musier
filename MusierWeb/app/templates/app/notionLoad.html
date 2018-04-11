@@ -207,10 +207,10 @@ function copyToClipboard(maintext){
           data: {Tonality:Tonality, Meter:Meter, notions,notions},
           url: "", //后台处理函数的url 这里用的是static url 需要与urls.py中的name一致
           cache: false,
-          dataType: "html",
+          dataType: "JSON",
           success: function(result, statues, xml){  
-            console.log(JSON.parse(result).generated_notions) 
-            $('#editor-textarea').val(JSON.parse(result).generated_notions);
+            console.log(result.generated_notions) 
+            $('#editor-textarea').val(result.generated_notions);
             $('#editor-textarea').change();                  //成功时弹出view传回来的结果
           },
           error: function(){
