@@ -19,6 +19,7 @@ class GABase:
         self.init_p_generation(init_generation)
         self.sum_score = 0.0
         self.best_period = None
+        self.least = 0.0
 
     def init_p_generation(self, input_p_generation):
         self.generation = deepcopy(input_p_generation)
@@ -59,9 +60,11 @@ class GABase:
     def mutate_period(self, p):
         ran = random.randint(0, self.period_length - 1)
         if ran == self.period_length - 1:
-            p.units[ran] = SA_optimize(p.units[ran], 100, 0.95, 60, True)
+            p.units[ran].chordID = random.randint(1, len(CHORD) - 1)
+            p.units[ran] = SA_optimize(p.units[ran], 800, 0.95, 400, ending = True, vari = False)
         else:
-            p.units[ran] = SA_optimize(p.units[ran], 100, 0.95, 60)
+            p.units[ran].chordID = random.randint(1, len(CHORD) - 1)
+            p.units[ran] = SA_optimize(p.units[ran], 800, 0.95, 400, vari = False)
         return p
 
     def choose_period(self):
@@ -69,9 +72,9 @@ class GABase:
         TODO Implement other choosing functions and evaluate whether they are better.
         :return: A period chosen by "roulette wheel" method.
         '''
-        ran = random.uniform(0, self.sum_score)
+        ran = random.uniform(0, self.sum_score - self.least * self.population)
         for p in self.generation:
-            ran -= p.score
+            ran -= (p.score - self.least)
             if ran <= 0:
                 return p
         raise Exception('Error: Wrong sum_score.')
@@ -114,3 +117,5 @@ class GABase:
             self.sum_score += p.score
             if self.best_period.score < p.score:
                 self.best_period = p
+            if self.least > p.score:
+                self.least = p.score
