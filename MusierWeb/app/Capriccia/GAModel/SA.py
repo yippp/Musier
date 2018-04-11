@@ -10,13 +10,39 @@ def create_mutated_unit(u):
     '''
     u_m = deepcopy(u)
     ran = random.randint(0, u.length - 1)
-    if u_m.notes[ran] != None:
+    if u_m.notes[ran] is not None:
         if random.random() > 0.5:
-            u_m.notes[ran] = u_m.notes[ran] + random.randint(-5, 5)
+            u_m.notes[ran] = u_m.notes[ran] + random.randint(max(-4, LOWER_LIMIT - u_m.notes[ran]), min(4, UPPER_LIMIT - u_m.notes[ran]))
         else:
             u_m.notes[ran] = None
     else:
-        u_m.notes[ran] = random.randint(-3, 12)
+        i = ran
+        while (i >= 0) and (u_m.notes[i] is None):
+            i -= 1
+        if i < 0:
+            left = MID_PITCH
+        else:
+            left = u_m.notes[i]
+        i = ran
+        while (i < u.length) and (u_m.notes[i] is None):
+            i += 1
+        if i >= u.length:
+            right = MID_PITCH
+        else:
+            right = u_m.notes[i]
+        u_m.notes[ran] = (left + right) // 2
+        u_m.notes[ran] = u_m.notes[ran] + random.randint(max(-4, LOWER_LIMIT - u_m.notes[ran]), min(4, UPPER_LIMIT - u_m.notes[ran]))
+    return u_m
+
+
+def create_same_rhythm_mutated_unit(u):
+    '''
+        :return: a new unit mutated from u with the same rhythm
+    '''
+    u_m = deepcopy(u)
+    ran = random.randint(0, u.length - 1)
+    if u_m.notes[ran] is not None:
+        u_m.notes[ran] = u_m.notes[ran] + random.randint(max(-4, LOWER_LIMIT - u_m.notes[ran]), min(4, UPPER_LIMIT - u_m.notes[ran]))
     return u_m
 
 
@@ -43,9 +69,11 @@ def unit_evaluation(u):
             if p_diff > 12:
                 score -= (p_diff - 8)
         if p_diff in {5, 7}:
-            score += 4
+            score += 5
         if p_diff in {2, 3, 4, 8, 9, 10, 12}:
-            score += 2
+            score += 3
+        if (y[1] % 12) not in {0, 2, 4, 5, 7, 9, 11}:
+            score -= 1
         if i == len(note_list) - 1:
             score += u.length - y[0] - 1
     score -= len(note_list)
@@ -76,9 +104,11 @@ def unit_evaluation_ending(u):
             if p_diff > 12:
                 score -= (p_diff - 8)
         if p_diff in {5, 7}:
-            score += 4
+            score += 5
         if p_diff in {2, 3, 4, 8, 9, 10, 12}:
-            score += 2
+            score += 3
+        if (y[1] % 12) not in {0, 2, 4, 5, 7, 9, 11}:
+            score -= 1
         # For ending in root pitch 'La'
         if (i == len(note_list) - 1) and (y[1] % 12 == 9):
             score += (u.length - y[0]) * 12
@@ -87,9 +117,12 @@ def unit_evaluation_ending(u):
     return score
 
 
-def SA_optimize(u, t, t_delta, time, ending = False):
+def SA_optimize(u, t, t_delta, time, ending=False, vari=True):
     for i in range(time):
-        u_m = create_mutated_unit(u)
+        if vari:
+            u_m = create_mutated_unit(u)
+        else:
+            u_m = create_same_rhythm_mutated_unit(u)
         u_m.update_chord_4()
         if ending:
             u_m.score = unit_evaluation_ending(u_m)
