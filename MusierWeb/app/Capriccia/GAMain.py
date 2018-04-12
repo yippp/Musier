@@ -110,8 +110,11 @@ def main_version_2(Tonality, Meter, notions):
     model = GABase(0.6, 0.03, init_generation, period_evaluation)
     for k in range(update_time):
         model.update_periods()
-    return(model.generation[0])
+    primary.extend(model.generation[0])
+    for u in primary:
+        print(u.chordID)
+    return primary
 
 
 # main_version_1()
-main_version_2()
+#main_version_2()

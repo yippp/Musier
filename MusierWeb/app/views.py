@@ -23,16 +23,16 @@ def notionLoad(request):
 		return render(request, 'app/notionLoad.html', {})
 	#POST request
 	elif request.method == "POST":
-		Dict = ["C,","_C,", "D,","_D,", "E,", "F,","_F,", "G,","_G,", "A,","_A,", "B,",\
-				"C" ,"_C" , "D" ,"_D" , "E" , "F" ,"_F" , "G" ,"_G" , "A" ,"_A" , "B" ,\
-				"c" ,"_c" , "d" ,"_d" , "e" , "f" ,"_f" , "g" ,"_g" , "a" ,"_a" , "b" ,\
-				"c'","_c'", "d'","_d'", "e'", "f'","_F'", "g'","_g'", "a'","_a'", "b'"
+		Dict = ["C,","^C,", "D,","^D,", "E,", "F,","^F,", "G,","^G,", "A,","^A,", "B,",\
+				"C" ,"^C" , "D" ,"^D" , "E" , "F" ,"^F" , "G" ,"^G" , "A" ,"^A" , "B" ,\
+				"c" ,"^c" , "d" ,"^d" , "e" , "f" ,"^f" , "g" ,"^g" , "a" ,"^a" , "b" ,\
+				"c'","^c'", "d'","^d'", "e'", "f'","^F'", "g'","^g'", "a'","^a'", "b'"
 		]
 		Meter = request.POST.get("Meter")
 		Tonality = request.POST.get("Tonality")
 		notions = request.POST.get("notions")
-		#Seq = main_version_1(Tonality, Meter, notions).get_notes()
-		Seq=[9, None, 2, 6, 2, None, -3, None, 0, None, 5, None, 12, None, 5, None, 9, 13, 9, None, 2, 0, None, 5, 9, None, 4, 2, 0, None, -3, None, 0, None, 5, 2, 5, None, 12, 9, 4, 6, None, 11, 9, None, 4, None, 9, None, 4, None, -3, 1, None, 6, -7, -3, None, None, None, None, None, None]
+		Seq = main_version_2(Tonality, Meter, notions).get_notes()
+		#Seq=[9, None, 2, 6, 2, None, -3, None, 0, None, 5, None, 12, None, 5, None, 9, 13, 9, None, 2, 0, None, 5, 9, None, 4, 2, 0, None, -3, None, 0, None, 5, 2, 5, None, 12, 9, 4, 6, None, 11, 9, None, 4, None, 9, None, 4, None, -3, 1, None, 6, -7, -3, None, None, None, None, None, None]
 		count = 1
 		note_count = 0
 		priod_count = -1
