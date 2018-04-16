@@ -61,10 +61,10 @@ class GABase:
         ran = random.randint(0, self.period_length - 1)
         if ran == self.period_length - 1:
             p.units[ran].chordID = random.randint(1, len(CHORD) - 1)
-            p.units[ran] = SA_optimize(p.units[ran], 800, 0.95, 400, ending = True, vari = False)
+            p.units[ran] = SA_optimize(p.units[ran], T_ORIGIN, T_ORIGIN, ITERATIONS, ending = True, vari = False)
         else:
             p.units[ran].chordID = random.randint(1, len(CHORD) - 1)
-            p.units[ran] = SA_optimize(p.units[ran], 800, 0.95, 400, vari = False)
+            p.units[ran] = SA_optimize(p.units[ran], T_ORIGIN, T_ORIGIN, ITERATIONS, vari = False)
         return p
 
     def choose_period(self):

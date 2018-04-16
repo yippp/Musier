@@ -44,10 +44,10 @@ def period_evaluation(p):
     for i in range(p.length):
         if p[i].chord_score >= 19:
             score += 8
-        if p[i].chordID in {2, 4, 6}:
-            score += 6
+        if p[i].chordID in {2, 3, 6}:
+            score += 12
         if (i >= 1) and ((p[i].chordID - p[i - 1].chordID) % 7 in {1, 3, 5}):
-            score += 6
+            score += 12
     if p[p.length - 1].chordID == 6:
         score += 150
     if score < 0:
@@ -70,7 +70,7 @@ def init_period():
 
 def main_version_1(Tonality, Meter, notions):
     init_generation = []
-    population = 35
+    population = 56
     period_length = 8
     unit_length = 8
     update_time = 110
@@ -79,14 +79,14 @@ def main_version_1(Tonality, Meter, notions):
         for j in range(period_length):
             u = []
             for k in range(unit_length):
-                ran = random.randint(-3, 12)
+                ran = random.randint(LOWER_LIMIT, UPPER_LIMIT)
                 u.append(ran)
             u = unit(u)
             u.update_chord_4()
             if (j == period_length - 1) or (j == period_length // 2 - 1):  # Ending units
-                u = SA_optimize(u, 800, 0.95, 400, ending = True)
+                u = SA_optimize(u, T_ORIGIN, DELTA, ITERATIONS, ending = True)
             else:
-                u = SA_optimize(u, 800, 0.95, 400)
+                u = SA_optimize(u, T_ORIGIN, T_ORIGIN, ITERATIONS)
             p.append(u)
         p = period(p)
         init_generation.append(p)
@@ -97,22 +97,23 @@ def main_version_1(Tonality, Meter, notions):
 
 
 def main_version_2(Tonality, Meter, notions):
-    population = 35
-    update_time = 160
+    population = 56
+    update_time = 110
+    # primary = main_version_1(Tonality, Meter, notions)
     primary = init_period()
     init_generation = []
     for j in range(population):
         p = deepcopy(primary)
         for i in range(p.length):
             p[i].update_chord_4()
-            p.units[i] = SA_optimize(p.units[i], 800, 0.95, 400, vari=False)
+            p.units[i] = SA_optimize(p.units[i], T_ORIGIN, DELTA, ITERATIONS, vari=False)
         init_generation.append(p)
     model = GABase(0.6, 0.03, init_generation, period_evaluation)
     for k in range(update_time):
         model.update_periods()
     primary.extend(model.generation[0])
     for u in primary:
-        print(u.chordID)
+        print(u.chordID, u.score)
     return primary
 
 
