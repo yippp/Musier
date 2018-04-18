@@ -21,7 +21,7 @@ def period_to_abcjs(seq, numerator, denominator, key, scale):
                 generated_notions += str(count)
                 count = 1
                 long_note = False
-            if ((note_count) % 8) == 0:
+            if ((note_count) % (scale // denominator * numerator)) == 0:
                 period_count += 1
                 generated_notions += "|"
                 if ((period_count % 4) == 0) and (period_count != 0):
