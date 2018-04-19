@@ -33,7 +33,7 @@ def period_to_abcjs(seq, numerator, denominator, key, scale):
     return generated_notions
 
 
-direction = 'Pop'
+direction = 'Children'
 files = os.listdir(direction)
 SCALE = 16
 for file in files:
@@ -42,7 +42,7 @@ for file in files:
         midi = Midi(path)
         note_list = midi.output_as_note_list(normalize=True)
         try:
-            p = midi.output_as_period(scale=SCALE)
+            p = midi.output_as_period(scale=SCALE, base=60)
             file_out = 'periods/' + direction + '/' + file[:-4] + '.txt'
             f = open(file_out, 'w')
             f.write(str(p))
