@@ -88,7 +88,7 @@ def main_version_1(Tonality, Meter, notions):
             p.append(u)
         p = period(p)
         init_generation.append(p)
-    model = GABase(0.6, 0.03, init_generation, period_evaluation)
+    model = GABase(0.6, 0.02, init_generation, period_evaluation)
     for k in range(UPDATE_TIME):
         model.update_periods()
     return(model.generation[0])
@@ -109,7 +109,7 @@ def main_version_2(Tonality, Meter, notions):
             else:
                 p.units[j] = SA_optimize(p.units[j], T_ORIGIN, DELTA, ITERATIONS, vari=False)
         init_generation.append(p)
-    model = GABase(0.6, 0.03, init_generation, period_evaluation)
+    model = GABase(0.6, 0.02, init_generation, period_evaluation)
     # for i in init_generation:
     #     for j in i:
     #         print(j.score, end = ' ')

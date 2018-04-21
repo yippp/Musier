@@ -41,6 +41,8 @@ def notionLoad(request):
 M: 4/4
 L: 1/8
 K: C
+Q: 1/4=150
+%%MIDI program 11
 '''
 		for i in range(len(Seq)):
 
