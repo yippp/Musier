@@ -8,16 +8,69 @@
 	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	{% load static %}
-	<link rel="stylesheet" type="text/css" href="{% static 'app/index.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'app/home.css' %}" />
+	
+	<script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
 </head>
-<body>
-       <div class="container bg">
-       		<ul class="buttums-group">
-       			<li class=" flex_center_row"><a class="btn btn-default buttum" href="/app/notionLoad" role="button">Quick Start</a></li>
-       			<li class=" flex_center_row"><a class="btn btn-default buttum" href="/app/notionLoad" role="button">Load</a></li>
-       			<li class=" flex_center_row"><a class="btn btn-default buttum" href="#" role="button">Quit</a></li>
 
-       		</ul>       	
-       </div>
+
+<body>
+	
+    <div class="navbar-wrapper">
+        <nav class="navbar navbar-inverse navbar-static-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#"> Musier </a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="/app/notionLoad">Notions</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+    </div>	
+	
+
+	<div class="cover-container">
+		<img src="../../static/app/img/1.png" alt="Cover" width="1272" height="300">
+	</div>	
+	
+	<div class="container marketing">
+	<!-- Three columns of text below the carousel -->
+      <div class="row">
+        <div class="col-lg-4">
+          <!-- img class="img-circle" src="sub.png" alt="subtitle" width="170" height="170" -->
+          <h2>Aim</h2>
+          <p>The automatic melody generator provides the amateur users with the opportunity to compose pieces of melody.</p>
+        </div>
+        <div class="col-lg-4">
+          <!--img class="img-circle" src="sub.png" alt="subtitle" width="170" height="170"-->
+          <h2>Algorithm</h2>
+          <p>Simulated Annealing Algorithm & Genetic Algorithm</p>
+        </div>
+        <div class="col-lg-4">
+          <!--img class="img-circle" src="sub.png" alt="subtitle" width="170" height="170"-->
+          <h2>Staff</h2>
+          <p>Mo Fan 115010204 Li Kengjie 115010177 Wang Junce 115010231 Ye Shuqian 115010269 Zhang Ruoqing 115010096 </p>
+        </div>
+      </div>
+	</div>
+
+	
+    <footer class="footer">
+      <div class="container foot">
+        <p> To be completed by MLWYZ.</p>
+      </div>
+    </footer>	
+	
+	
+  
 </body>
 </html>
