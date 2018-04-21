@@ -43,9 +43,9 @@ def period_evaluation(p):
     score -= len(note_list)
     for i in range(p.length):
         if p[i].chordID in  PRIOR_CHORD[MAJOR]:
-            score += 14
+            score += 10
         if (i >= 1) and ((p[i].chordID - p[i - 1].chordID) % 7 in {1, 3, 5}):
-            score += 22
+            score += 15
     if p[0].chordID == ENDING_CHORD[MAJOR]:
         score += 100
     if p[p.length - 1].chordID == ENDING_CHORD[MAJOR]:
@@ -114,8 +114,8 @@ def main_version_2(Tonality, Meter, notions):
     #     for j in i:
     #         print(j.score, end = ' ')
     #     print('\n')
-    # for k in range(UPDATE_TIME):
-    #     model.update_periods()
+    for k in range(UPDATE_TIME):
+       model.update_periods()
     primary.extend(model.generation[0])
     # for u in primary:
     #     print(u.chordID, u.score)
@@ -123,4 +123,4 @@ def main_version_2(Tonality, Meter, notions):
 
 
 # main_version_1()
-# print(main_version_2(0,0,0))
+print(main_version_2(0,0,0))

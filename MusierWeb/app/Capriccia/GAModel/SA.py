@@ -206,5 +206,3 @@ def SA_optimize(u, t, t_delta, time, ending=False, vari=True):
                 u = u_m
         t = t * t_delta
     return u
-
-print(unit_evaluation(unit([9, None, None, 0, 2, 4, 5, None], 7)))

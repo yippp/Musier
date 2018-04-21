@@ -69,3 +69,5 @@ fabric.properties
 */.idea
 *.~vsdx
 *.pyc
+*.txt
+*.mid
