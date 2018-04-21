@@ -46,7 +46,7 @@ def create_same_rhythm_mutated_unit(u):
     return u_m
 
 
-def unit_evaluation(u):
+def unit_evaluation(u, debug=False):
     note_list = []
     last = 0
     for i in range(u.length):
@@ -63,6 +63,7 @@ def unit_evaluation(u):
     bad_start = 0
     overtone = 0
     black = 0
+    total_downbeat = 0
     for i in range(1, len(note_list)):
         x = note_list[i - 1]
         y = note_list[i]
@@ -76,74 +77,118 @@ def unit_evaluation(u):
             if (p_diff == 6) or (p_diff > 7):
                 taboo_jump += 1
         elif t_diff == 2:
-            if p_diff > 8:
+            if p_diff > 5:
+                fierce_jump += 1
+            if (p_diff in {6, 10, 11}) or (p_diff > 8): # TODO optimize these constants
+                taboo_jump += 1
+        else:
+            if p_diff > 7:
                 fierce_jump += 1
             if (p_diff in {6, 10, 11}) or (p_diff > 12):
                 taboo_jump += 1
-        else:
-            if (p_diff in {6, 10, 11}) or (p_diff > 12):
-                taboo_jump += 1
-        if (x[0] in DOWNBEAT[u.length]) and ((x[1] % 12) not in CHORD[u.chordID]):  # downbeat out of chord
-            bad_downbeat += 1
+        if DOWNBEAT[u.length].get(x[0], False):
+            total_downbeat += DOWNBEAT[u.length][x[0]]
+            if (x[1] % 12) not in CHORD[u.chordID]:  # downbeat out of chord
+                bad_downbeat += DOWNBEAT[u.length][x[0]]
         if (i == 1) and ((x[0] != 0) or ((x[0] == 0) and ((x[1] % 12) not in CHORD[u.chordID]))):  # start pitch out of chord
             bad_start = 1
         if ((x[1] % 12) not in CHORD[u.chordID]) and ((y[1] % 12) in CHORD[u.chordID]):
             overtone += 1
         if (y[1] % 12) not in {0, 2, 4, 5, 7, 9, 11}:
             black += 1
-    score = 50 - 8 * bad_start - 6 * taboo_jump
+    score = 50 - 8 * bad_start - 7 * taboo_jump
     if length_on_chord > u.length // 2:
         score += length_on_chord
     else:
         score += 3 * length_on_chord - u.length - 2
     if bad_downbeat > 0:
         score -= 3 * bad_downbeat - 2
+    if total_downbeat * 2 + 1 < len(note_list):
+        score -= 3 * (len(note_list) - total_downbeat * 2 - 1)
     if black > 0:
-        score -= 2 * black - 1
+        score -= 2 * black
     if fierce_jump > 0:
-        score -= 3 * fierce_jump - 3
-    if overtone < 3:
-        score += overtone
+        score -= 4 * fierce_jump - 4
+    if (overtone > 0) and (overtone < 3):
+        score += 1 + overtone
     return score
 
 
 def unit_evaluation_ending(u):
     note_list = []
+    last = 0
     for i in range(u.length):
         if u[i] is not None:
             note_list.append((i, u[i]))
+            last = u[i]
     if len(note_list) == 0:
         return 0
-    score = 0
+    note_list.append((u.length, last))
+    length_on_chord = 0
+    fierce_jump = 0
+    taboo_jump = 0
+    bad_downbeat = 0
+    bad_start = 0
+    overtone = 0
+    black = 0
+    total_downbeat = 0
     for i in range(1, len(note_list)):
         x = note_list[i - 1]
         y = note_list[i]
         t_diff = y[0] - x[0]  # length
         p_diff = abs(y[1] - x[1])  # pitch difference
+        if (x[1] % 12) in CHORD[u.chordID]:
+            length_on_chord += t_diff
         if t_diff == 1:
             if p_diff > 4:
-                score -= p_diff
+                fierce_jump += 1
+            if (p_diff == 6) or (p_diff > 7):
+                taboo_jump += 1
         elif t_diff == 2:
-            if p_diff > 8:
-                score -= (p_diff - 4)
+            if p_diff > 5:
+                fierce_jump += 1
+            if (p_diff in {6, 10, 11}) or (p_diff > 8):  # TODO optimize these constants
+                taboo_jump += 1
         else:
-            if p_diff > 12:
-                score -= (p_diff - 8)
-        if p_diff in {5, 7}:
-            score += 5
-        if p_diff in {2, 3, 4, 8, 9, 10, 12}:
-            score += 3
+            if p_diff > 7:
+                fierce_jump += 1
+            if (p_diff in {6, 10, 11}) or (p_diff > 12):
+                taboo_jump += 1
+        if DOWNBEAT[u.length].get(x[0], False):
+            total_downbeat += DOWNBEAT[u.length][x[0]]
+            if (x[1] % 12) not in CHORD[u.chordID]:  # downbeat out of chord
+                bad_downbeat += DOWNBEAT[u.length][x[0]]
+        if (i == 1) and (
+                (x[0] != 0) or ((x[0] == 0) and ((x[1] % 12) not in CHORD[u.chordID]))):  # start pitch out of chord
+            bad_start = 1
+        if ((x[1] % 12) not in CHORD[u.chordID]) and ((y[1] % 12) in CHORD[u.chordID]):
+            overtone += 1
         if (y[1] % 12) not in {0, 2, 4, 5, 7, 9, 11}:
-            score -= 1
-        # For ending in root pitch 'La'
-        if (i == len(note_list) - 1) and (y[1] % 12 == 9):
-            score += (u.length - y[0]) * 12
-    score -= len(note_list)
-    score += u.chord_score
+            black += 1
+    score = 50 - 8 * bad_start - 7 * taboo_jump
+    if length_on_chord > u.length // 2:
+        score += length_on_chord
+    else:
+        score += 3 * length_on_chord - u.length - 2
+    if bad_downbeat > 0:
+        score -= 3 * bad_downbeat - 2
+    if total_downbeat * 2 + 1 < len(note_list):
+        score -= 3 * (len(note_list) - total_downbeat * 2 - 1)
+    if black > 0:
+        score -= 2 * black
+    if fierce_jump > 0:
+        score -= 4 * fierce_jump - 4
+    if (overtone > 0) and (overtone < 3):
+        score += 1 + overtone
+    score += note_list[-1][0] - note_list[-2][0]
     return score
 
 
 def SA_optimize(u, t, t_delta, time, ending=False, vari=True):
+    if ending:
+        u.score = unit_evaluation_ending(u)
+    else:
+        u.score = unit_evaluation(u)
     for i in range(time):
         if vari:
             u_m = create_mutated_unit(u)
@@ -161,3 +206,5 @@ def SA_optimize(u, t, t_delta, time, ending=False, vari=True):
                 u = u_m
         t = t * t_delta
     return u
+
+print(unit_evaluation(unit([9, None, None, 0, 2, 4, 5, None], 7)))

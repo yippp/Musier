@@ -33,7 +33,7 @@ def period_to_abcjs(seq, numerator, denominator, key, scale):
     return generated_notions
 
 
-direction = 'Children'
+direction = 'Pop'
 files = os.listdir(direction)
 SCALE = 16
 for file in files:
