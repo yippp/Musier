@@ -123,4 +123,4 @@ def main_version_2(Tonality, Meter, notions):
 
 
 # main_version_1()
-print(main_version_2(0,0,0))
+# print(main_version_2(0,0,0))
