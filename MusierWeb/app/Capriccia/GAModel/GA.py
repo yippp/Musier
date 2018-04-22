@@ -59,12 +59,12 @@ class GABase:
 
     def mutate_period(self, p):
         ran = random.randint(0, self.period_length - 1)
-        if ran == self.period_length - 1:
+        if (ran == self.period_length - 1) or (ran == self.period_length // 2 - 1):
             p.units[ran].chordID = random.randint(1, len(CHORD) - 1)
-            p.units[ran] = SA_optimize(p.units[ran], 800, 0.95, 400, ending = True, vari = False)
+            p.units[ran] = SA_optimize(p.units[ran], T_ORIGIN, DELTA, ITERATIONS, ending = True, vari = False)
         else:
             p.units[ran].chordID = random.randint(1, len(CHORD) - 1)
-            p.units[ran] = SA_optimize(p.units[ran], 800, 0.95, 400, vari = False)
+            p.units[ran] = SA_optimize(p.units[ran], T_ORIGIN, DELTA, ITERATIONS, vari = False)
         return p
 
     def choose_period(self):
@@ -90,7 +90,7 @@ class GABase:
             p2 = self.choose_period()
             new_period = self.cross_periods_v2(p1, p2)
         else:
-            new_period = p1
+            new_period = deepcopy(p1)
         # Judge whether new_period mutates
         ran = random.random()
         if ran < self.period_mutation_rate:

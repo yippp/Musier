@@ -19,23 +19,30 @@ class unit:
     def __str__(self):
         return "%s chordID: %d" % (self.notes, self.chordID)
 
-    def update_chord_4(self):
+    def update_chord(self, meter=4):
         """
         Find a reasonable chord for a 4*k-length unit 'u', and update u.chord
         """
-        if (self.length == 0) or (self.length % 4 != 0):
+        if (self.length == 0) or (self.length % meter != 0):
             raise Exception('Error: Invalid unit length.')
-        n = [self[0], self[self.length // 2], self[self.length // 4], self[self.length * 3 // 4]]
-        for i in range(4):
+        if meter==4:
+            n = [self[0], self[self.length // 2], self[self.length // 4], self[self.length * 3 // 4]]
+        elif meter==3:
+            n = [self[0], self[self.length // 3], self[self.length * 2 // 3]]
+        for i in range(meter):
             if n[i] is not None:
                 n[i] %= 12
-        s = (12, 8, 2, 2)
-        s_n = (4, 5, 1, 1)
+        if meter==4:
+            s = (12, 8, 2, 2)
+            s_n = (4, 5, 1, 1)
+        elif meter==3:
+            s = (12, 2, 2)
+            s_n = (4, 1, 1)
         best = -1
         best_id = 0
         for i in range(1, len(CHORD)):
             score = 0
-            for j in range(4):
+            for j in range(meter):
                 if n[j] is None:
                     score += s_n[j]
                 if n[j] in CHORD[i]:
