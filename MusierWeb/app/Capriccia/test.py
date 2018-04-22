@@ -16,5 +16,5 @@ from GAModel.period import unit, period
 # b.units[1] = unit(t)
 # print(b)
 t = unit([0, 2, 8, 5, 9, 9, 11, 12])
-t.update_chord_4()
+t.update_chord()
 print(t.chord_score)

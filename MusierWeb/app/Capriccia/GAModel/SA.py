@@ -194,7 +194,7 @@ def SA_optimize(u, t, t_delta, time, ending=False, vari=True):
             u_m = create_mutated_unit(u)
         else:
             u_m = create_same_rhythm_mutated_unit(u)
-        u_m.update_chord_4()
+        u_m.update_chord(u.length // 2)  # TODO if new meter values are added, update this.
         if ending:
             u_m.score = unit_evaluation_ending(u_m)
         else:

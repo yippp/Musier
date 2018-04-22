@@ -68,10 +68,12 @@ def init_period():
     return p
 
 
-def main_version_1(Tonality, Meter, notions):
+def main_version_1(meter, Major):
+    # Meter: {3, 4}
+    # Major: {0, 1}
     init_generation = []
     period_length = 8
-    unit_length = 8
+    unit_length = meter * 2
     for i in range(POPULATION):
         p = []
         for j in range(period_length):
@@ -80,7 +82,7 @@ def main_version_1(Tonality, Meter, notions):
                 ran = random.randint(LOWER_LIMIT, UPPER_LIMIT)
                 u.append(ran)
             u = unit(u)
-            u.update_chord_4()
+            u.update_chord(meter)
             if (j == period_length - 1) or (j == period_length // 2 - 1):  # Ending units
                 u = SA_optimize(u, T_ORIGIN, DELTA, ITERATIONS, ending = True)
             else:
@@ -94,16 +96,16 @@ def main_version_1(Tonality, Meter, notions):
     return(model.generation[0])
 
 
-def main_version_2(Tonality, Meter, notions):
+def main_version_2(meter, notions):
     period_length = 8
-    unit_length = 8
-    primary = main_version_1(Tonality, Meter, notions)
+    unit_length = meter * 2
+    primary = main_version_1(meter, notions)
     # primary = init_period()
     init_generation = []
     for i in range(POPULATION):
         p = deepcopy(primary)
         for j in range(p.length):
-            p[j].update_chord_4()
+            p[j].update_chord(meter)
             if (j == period_length - 1) or (j == period_length // 2 - 1):  # Ending units
                 p.units[j] = SA_optimize(p.units[j], T_ORIGIN, DELTA, ITERATIONS, vari=False, ending=True)
             else:
@@ -122,5 +124,4 @@ def main_version_2(Tonality, Meter, notions):
     return primary
 
 
-# main_version_1()
-# print(main_version_2(0,0,0))
+# print(main_version_2(3,0))
