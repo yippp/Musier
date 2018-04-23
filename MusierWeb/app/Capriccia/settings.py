@@ -4,7 +4,6 @@ DOWNBEAT = {8: {2:1, 4:2, 6:1}, 6: {2:1, 4:1}}
 PRIOR_CHORD = {0: {2, 3, 6}, 1: {1, 4, 5}}
 ENDING = {0: 9, 1: 0}
 ENDING_CHORD = {0: 6, 1: 1}
-MAJOR = 0
 UPPER_LIMIT = 20
 LOWER_LIMIT = 0
 MID_PITCH = 10
