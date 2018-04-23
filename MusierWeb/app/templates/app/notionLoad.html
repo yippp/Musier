@@ -222,7 +222,7 @@ function copyToClipboard(maintext){
        data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
     });
     $('#notion_form').submit(function(){
-      var Major = $("#Tonality").val();                
+      var Major = $("#Major").val();                
       var Meter = $("#Meter").val(); 
       var notions = $("#notions").val(); 
       var Title = $('#Title').val();
