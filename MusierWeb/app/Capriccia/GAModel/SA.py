@@ -106,7 +106,7 @@ def unit_evaluation(u, debug=False):
     if total_downbeat * 2 + 1 < len(note_list):
         score -= 3 * (len(note_list) - total_downbeat * 2 - 1)
     if black > 0:
-        score -= 2 * black
+        score -= 4 * black
     if fierce_jump > 0:
         score -= 4 * fierce_jump - 4
     if (overtone > 0) and (overtone < 3):
@@ -175,7 +175,7 @@ def unit_evaluation_ending(u):
     if total_downbeat * 2 + 1 < len(note_list):
         score -= 3 * (len(note_list) - total_downbeat * 2 - 1)
     if black > 0:
-        score -= 2 * black
+        score -= 4 * black
     if fierce_jump > 0:
         score -= 4 * fierce_jump - 4
     if (overtone > 0) and (overtone < 3):

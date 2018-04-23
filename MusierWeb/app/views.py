@@ -34,16 +34,16 @@ def notionLoad(request):
 		Major = int(request.POST.get("Major"))
 		notions = request.POST.get("notions")
 		Title = request.POST.get("Title")
-		#Seq_total = main_version_2(Meter, notions)
-		#Seq_major = Seq_total[0].get_notes()
-		#Seq_minor = Seq_total[1].get_notes()
-		Seq_minor = []
-		Seq_major=[9, None, 2, 6, 2, None, -3, None, 0, None, 5, None, 12, None, 5, None, 9, 13, 9, None, 2, 0, None, 5, 9, None, 4, 2, 0, None, -3, None, 0, None, 5, 2, 5, None, 12, 9, 4, 6, None, 11, 9, None, 4, None, 9, None, 4, None, -3, 1, None, 6, -7, -3, None, None, None, None, None, None]
-		for note in Seq_major:
-			if isinstance(note,type(1)):
-				Seq_minor.append(note-16)
-			else:
-				Seq_minor.append(None)
+		Seq = main_version_2(Meter, Major)
+		Seq_main = Seq[0].get_notes()
+		Seq_chord = Seq[1].get_notes()
+		# Seq_main = []
+		# Seq_chord=[9, None, 2, 6, 2, None, -3, None, 0, None, 5, None, 12, None, 5, None, 9, 13, 9, None, 2, 0, None, 5, 9, None, 4, 2, 0, None, -3, None, 0, None, 5, 2, 5, None, 12, 9, 4, 6, None, 11, 9, None, 4, None, 9, None, 4, None, -3, 1, None, 6, -7, -3, None, None, None, None, None, None]
+		# for note in Seq_main:
+		#     if isinstance(note,type(1)):
+		#         Seq_chord.append(note-16)
+		#     else:
+		#         Seq_chord.append(None)
 		count = 1
 		note_count = 0
 		priod_count = -1
@@ -57,10 +57,10 @@ Q: 1/4=150
 		##major track
 		generated_notions += '''V:1
 K:C
-%%MIDI program 1
+%%MIDI program 2
 '''
-		for i in range(len(Seq_major)):
-			if (Seq_major[i] == None):
+		for i in range(len(Seq_main)):
+			if (Seq_main[i] == None):
 				count += 1
 				long_note = True
 			else:			
@@ -73,9 +73,9 @@ K:C
 					generated_notions += "|"
 					if ((priod_count % 4) == 0) and (priod_count != 0):
 						generated_notions += "\n"
-				generated_notions += Dict[24 + Seq_major[i]]
+				generated_notions += Dict[24 + Seq_main[i]]
 			note_count += 1
-		if Seq_major[-1] == None:
+		if Seq_main[-1] == None:
 			generated_notions += str(count)
 		##minor track
 		count = 1
@@ -85,10 +85,10 @@ K:C
 		generated_notions += '''
 V:2
 K:bass
-%%MIDI program 11
+%%MIDI program 4
 '''
-		for i in range(len(Seq_minor)):
-			if (Seq_minor[i] == None):
+		for i in range(len(Seq_chord)):
+			if (Seq_chord[i] == None):
 				count += 1
 				long_note = True
 			else:			
@@ -101,9 +101,9 @@ K:bass
 					generated_notions += "|"
 					if ((priod_count % 4) == 0) and (priod_count != 0):
 						generated_notions += "\n"
-				generated_notions += Dict[24 + Seq_minor[i]]
+				generated_notions += Dict[24 + Seq_chord[i]]
 			note_count += 1
-		if Seq_minor[-1] == None:
+		if Seq_chord[-1] == None:
 			generated_notions += str(count)
 		return HttpResponse(json.dumps({"generated_notions":generated_notions}), content_type="application/json")
 

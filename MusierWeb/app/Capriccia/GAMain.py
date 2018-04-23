@@ -122,7 +122,18 @@ def main_version_2(meter, major):
     primary.extend(model.generation[0])
     # for u in primary:
     #     print(u.chordID, u.score)
-    return primary
+    chord_track = period()
+    for i in range(primary.length):
+        u = primary[i]
+        chord_note = []
+        if i != primary.length - 1:
+            for i in range(meter):
+                chord_note.extend([CHORD_NOTE[meter][u.chordID][i] - 12, None])
+        else:
+            chord_note.append(CHORD_NOTE[meter][u.chordID][0] - 12)
+            chord_note.extend([None] * (meter * 2 - 1))
+        chord_track.append(unit(chord_note))
+    return primary, chord_track
 
 
-print(main_version_2(3,0))
+# x = main_version_2(3,0)

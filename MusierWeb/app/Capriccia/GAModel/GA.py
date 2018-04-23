@@ -95,7 +95,7 @@ class GABase:
         # Judge whether new_period mutates
         ran = random.random()
         if ran < self.period_mutation_rate:
-            new_period = self.mutate_period(new_period)
+            new_period = self.mutate_period(deepcopy(new_period))
         return new_period
 
     def update_periods(self):
