@@ -14,11 +14,13 @@
 	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="{% static 'app/notionLoad.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'app/abcjs-midi.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'app/abcjs-midi.css' %}">  
+  <link rel="stylesheet" type="text/css" href="{% static 'app/loaders.min.css' %}">  
 </head>
 
 
 <body>
+  <div class="main">
     <div class="navbar-wrapper">
         <nav class="navbar navbar-inverse navbar-static-top">
           <div class="container">
@@ -40,7 +42,7 @@
         </nav>
     </div>	
     
-    <div class="row mb60">
+    <div class="row">
       <from action="/app/notionLoad/" method='POST' id="notion_form">
       {% csrf_token %}
       <div class="col-lg-3 col-md-3 col-sm-10 style-margin">
@@ -71,17 +73,14 @@
               </div>
         </div>
         <input class="btn btn-default col-sm-12" id = "submit" type="submit" value="Click Here To Go"/>
+        <div class = "btn btn-default col-sm-12 active" id = "waiting" style="display: none;">Loading<span>
+          <div class="ball-clip-rotate-multiple" "><div><div></div></div></div></span>
+        </div>
         
         <div class="btn btn-default label-control col-sm-12">
-              <a  id="midi_download"></a>
+          <a  id="midi_download" style="display: none;"></a>
         </div>
-      </div>
-      </from>
-
-      <div class="col-lg-7 col-md-7 col-sm-10 style-margin">
-        <div id= "midi"></div>
-        <textarea class="form-control" rows="6" id="notions"  form="notion_form" style="display:none;"></textarea>
-        <textarea class="form-control"  id="editor-textarea" style="min-height: 400px;height:auto;margin-top: 10px;">X:1
+        <textarea class="form-control"  id="editor-textarea" style="min-height: 500px;height:auto;margin-top: 200px;">X:1
 T:
 M: 3/4
 L: 1/8
@@ -89,15 +88,23 @@ Q: 1/4=150
 V:1
 K:C
 %%MIDI program 25</textarea>
+      </div>
+      </from>
+
+      <div class="col-lg-7 col-md-7 col-sm-10 style-margin">
+        <div id= "midi"></div>
+        <textarea class="form-control" rows="6" id="notions"  form="notion_form" style="display:none;"></textarea>
         <div id = "notioanCanvas" style=""></div>
       </div>
     </div>
+  
 
     <footer class="footer">
       <div class="container foot">
         <p> To be completed by MLWYZ.</p>
       </div>
     </footer> 
+  </div>
 
 
 
@@ -233,6 +240,8 @@ function copyToClipboard(maintext){
       var Meter = $("#Meter").val(); 
       var notions = $("#notions").val(); 
       var Title = $('#Title').val();
+      $("#submit").hide();
+      $('#waiting').show();
       $.ajax({
           type:"POST",
           data: {Major:Major, Meter:Meter, notions:notions, Title:Title},
@@ -243,9 +252,14 @@ function copyToClipboard(maintext){
             console.log(result.generated_notions) 
             $('#editor-textarea').val(result.generated_notions);
             $('#editor-textarea').change();                  //成功时弹出view传回来的结果
+            $("#submit").show();
+            $('#midi_download').show();
+            $('#waiting').hide();
           },
           error: function(){
               alert("false");
+              $("#submit").show();
+              $('#waiting').hide();
           }
       });
       return false;
