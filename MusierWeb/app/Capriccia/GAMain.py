@@ -9,7 +9,8 @@ from GAModel.SA import SA_optimize
 from copy import deepcopy
 import random
 
-def period_evaluation(p):
+
+def period_evaluation(p, major):
     notes = p.get_notes()
     note_list = []
     for i in range(len(notes)):
@@ -38,17 +39,17 @@ def period_evaluation(p):
             score += 3
         if (y[1] % 12) not in {0, 2, 4, 5, 7, 9, 11}:
             score -= 1
-        if (i == len(note_list) - 1) and (y[1] % 12 == ENDING[MAJOR]):
+        if (i == len(note_list) - 1) and (y[1] % 12 == ENDING[major]):
             score += (len(notes) - y[0]) * 80  # ENDING as the last note
     score -= len(note_list)
     for i in range(p.length):
-        if p[i].chordID in  PRIOR_CHORD[MAJOR]:
+        if p[i].chordID in  PRIOR_CHORD[major]:
             score += 10
         if (i >= 1) and ((p[i].chordID - p[i - 1].chordID) % 7 in {1, 3, 5}):
             score += 15
-    if p[0].chordID == ENDING_CHORD[MAJOR]:
+    if p[0].chordID == ENDING_CHORD[major]:
         score += 100
-    if p[p.length - 1].chordID == ENDING_CHORD[MAJOR]:
+    if p[p.length - 1].chordID == ENDING_CHORD[major]:
         score += 100
     if score < 0:
         score = 0
@@ -68,7 +69,7 @@ def init_period():
     return p
 
 
-def main_version_1(meter, Major):
+def main_version_1(meter, major):
     # Meter: {3, 4}
     # Major: {0, 1}
     init_generation = []
@@ -90,16 +91,16 @@ def main_version_1(meter, Major):
             p.append(u)
         p = period(p)
         init_generation.append(p)
-    model = GABase(0.6, 0.02, init_generation, period_evaluation)
+    model = GABase(0.6, 0.02, init_generation, period_evaluation, major)
     for k in range(UPDATE_TIME):
         model.update_periods()
     return(model.generation[0])
 
 
-def main_version_2(meter, notions):
+def main_version_2(meter, major):
     period_length = 8
     unit_length = meter * 2
-    primary = main_version_1(meter, notions)
+    primary = main_version_1(meter, major)
     # primary = init_period()
     init_generation = []
     for i in range(POPULATION):
@@ -111,7 +112,7 @@ def main_version_2(meter, notions):
             else:
                 p.units[j] = SA_optimize(p.units[j], T_ORIGIN, DELTA, ITERATIONS, vari=False)
         init_generation.append(p)
-    model = GABase(0.6, 0.02, init_generation, period_evaluation)
+    model = GABase(0.6, 0.02, init_generation, period_evaluation, major)
     # for i in init_generation:
     #     for j in i:
     #         print(j.score, end = ' ')
@@ -121,7 +122,18 @@ def main_version_2(meter, notions):
     primary.extend(model.generation[0])
     # for u in primary:
     #     print(u.chordID, u.score)
-    return primary
+    chord_track = period()
+    for i in range(primary.length):
+        u = primary[i]
+        chord_note = []
+        if i != primary.length - 1:
+            for i in range(meter):
+                chord_note.extend([CHORD_NOTE[meter][u.chordID][i] - 12, None])
+        else:
+            chord_note.append(CHORD_NOTE[meter][u.chordID][0] - 12)
+            chord_note.extend([None] * (meter * 2 - 1))
+        chord_track.append(unit(chord_note))
+    return primary, chord_track
 
 
-# print(main_version_2(3,0))
+# x = main_version_2(3,0)

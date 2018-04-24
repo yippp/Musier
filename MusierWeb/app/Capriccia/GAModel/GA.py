@@ -7,7 +7,7 @@ from GAModel.SA import SA_optimize
 
 class GABase:
     def __init__(self, period_cross_rate, period_mutation_rate,
-                 init_generation, period_evaluation):
+                 init_generation, period_evaluation, major):
 
         self.period_cross_rate = period_cross_rate
         self.period_mutation_rate = period_mutation_rate
@@ -20,6 +20,7 @@ class GABase:
         self.sum_score = 0.0
         self.best_period = None
         self.least = 0.0
+        self.major = major
 
     def init_p_generation(self, input_p_generation):
         self.generation = deepcopy(input_p_generation)
@@ -94,7 +95,7 @@ class GABase:
         # Judge whether new_period mutates
         ran = random.random()
         if ran < self.period_mutation_rate:
-            new_period = self.mutate_period(new_period)
+            new_period = self.mutate_period(deepcopy(new_period))
         return new_period
 
     def update_periods(self):
@@ -113,7 +114,7 @@ class GABase:
         self.sum_score = 0.0
         self.best_period = self.generation[0]
         for p in self.generation:
-            p.score = self.period_evaluation(p)
+            p.score = self.period_evaluation(p, self.major)
             self.sum_score += p.score
             if self.best_period.score < p.score:
                 self.best_period = p
