@@ -37,14 +37,15 @@ def notionLoad(request):
 		notion = []
 		num = 0
 		bgn = 1
+		numDict=["1","^1","2","^2","3","4","^4","5","^5","6","^6","7"]
 		for note in notions:
 			if note.isNumber():
 				if bgn:
-					num = int(note)-1
+					num = numDict.index(note)
 					bgn = 0
 				else:
 					notion.append(num)
-					num = int(note)-1
+					num = numDict.index(note)
 			elif note == "'":
 				num+=12;
 			elif note == ",":
