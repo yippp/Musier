@@ -3,17 +3,17 @@
 <head>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Musier</title>
+  <title>Musier</title>
   {% load static %}
   <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
   <script type="text/javascript" src="{% static 'app/jquery-1.11.2.min.js' %}"></script>
-		<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="{% static 'app/notionLoad.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'app/notionLoad.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'app/abcjs-midi.css' %}">  
   <link rel="stylesheet" type="text/css" href="{% static 'app/loaders.min.css' %}">  
 </head>
@@ -44,7 +44,7 @@
     
     
     <div class="row">
-      <from action="/app/notionLoad/" method='POST' id="notion_form">{% csrf_token %}<div class="col-lg-3 col-md-3 col-sm-10">
+      <from action="/app/notionLoad/" method='POST' id="notion_form">{% csrf_token %}<div class="col-lg-4 col-md-4 col-sm-12">
           <div class="form-group col-lg-12 col-md-12">
             <label class="label-control control-label col-lg-4 col-md-4 col-sm-4">Title</label>
             <div class="col-lg-8 col-md-8 col-sm-8">
@@ -98,7 +98,7 @@ K:C
 
       </div></from>
 
-      <div class="col-lg-7 col-md-7 col-sm-10">
+      <div class="col-lg-8 col-md-8 col-sm-12">
         <div id= "midi"></div>
         <div id = "notioanCanvas" style=""></div>
       </div>
