@@ -72,7 +72,7 @@
               </div>
         </div>
 
-        <textarea class="form-control"  id="inputArea" style="margin-top: 100px;margin-bottom: 10px;resize: none;" placeholder="Input your prefer melody here.(Simple music notion.)
+        <textarea class="form-control"  id="inputArea" style="margin-top: 100px;margin-bottom: 10px;resize: none;" placeholder="Input your prefer melody here.(Simple musical notation.)
 e.g.12311231345345" rows = "3" form="notion_form"></textarea>
 
         <input class="btn btn-default col-sm-12 form-control" id = "submit" type="submit" value="Click Here To Go"/>
@@ -256,6 +256,22 @@ K:C
       return false;
 
     });
+
+    $('#Title').change(function(){
+        $('#editor-textarea').focus();
+        var Title = $('#Title').val(),
+            content = $('#editor-textarea').val();
+        var pos_T = content.indexOf("T"),
+            pos_end = content.indexOf("M")-1;
+        console.log(pos_T,pos_end)
+        $('#editor-textarea').iSelectField(pos_T+2);
+        $('#editor-textarea').iDelField(-(pos_end-pos_T-2));
+        $('#editor-textarea').iAddField(Title);
+        $('#editor-textarea').change();
+        $('#Title').focus();
+
+
+    });
 </script>
 <script type="text/javascript">
   $(document).ready(function(){
@@ -306,6 +322,7 @@ K:C
         a.click();
       });
     });
+
   });
 </script>
 </body>
