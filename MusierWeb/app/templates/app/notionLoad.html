@@ -242,7 +242,7 @@ K:C
       k = String.fromCharCode(k);
       switch(k){
           case "w": if(n_bgn){$(this).iAddField("'");}break;
-          case "s": if(n_bgn){$(this).iAddField(".");}break;
+          case "s": if(n_bgn){$(this).iAddField(",");}break;
           case "d": if(n_bgn){$(this).iAddField("+");LongNote += 1;console.log(LongNote);}break;
           case "a": if(LongNote >= 1){console.log("Del");LongNote-=1;$(this).iDelField(1);};break;
           case "1": $(this).iAddField("1");LongNote = 0;n_bgn=true;break;
