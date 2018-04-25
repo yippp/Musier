@@ -53,3 +53,13 @@ body {
     left:0px;
  	background-color: #f5f5f5;
 }
+
+.foot {
+  font-family: "Quicksand";
+  width: auto;
+  max-width: 680px;
+  padding: 0 15px;
+  text-align: center;
+  margin: 20px 0;
+  margin-top: 20px;
+}s

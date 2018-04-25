@@ -77,8 +77,10 @@
           <div class="ball-clip-rotate-multiple" "><div><div></div></div></div></span>
         </div>
         
-        <div class="btn btn-default label-control col-sm-12">
-          <a  id="midi_download" style="display: none;"></a>
+        <div class="btn btn-default label-control col-sm-12" id="midi_download_btn" style="display: none;">
+          <a  id="midi_download" ></a>
+        </div>
+        <div class="btn btn-default label-control col-sm-12" id="map_download" style="display: none;">Save Sheet
         </div>
         <textarea class="form-control"  id="editor-textarea" style="min-height: 500px;height:auto;margin-top: 200px;">X:1
 T:
@@ -112,6 +114,7 @@ K:C
 
 
 <script src="{% static 'app/abcjs_midi_4.0.1-min.js' %}" type="text/javascript"></script>
+<script src="{% static 'app/html2canvas.min.js' %}" type="text/javascript"></script>
 <!-- <script src="{% static 'app/abcjs_basic_midi_3.2.1.js' %}" type="text/javascript"></script>
  -->  <script type="text/javascript">
   window.onload = function() {
@@ -253,7 +256,8 @@ function copyToClipboard(maintext){
             $('#editor-textarea').val(result.generated_notions);
             $('#editor-textarea').change();                  //成功时弹出view传回来的结果
             $("#submit").show();
-            $('#midi_download').show();
+            $('#midi_download_btn').show();
+            $('#map_download').show();
             $('#waiting').hide();
           },
           error: function(){
@@ -266,6 +270,17 @@ function copyToClipboard(maintext){
     });
     $('#submit').click(function(){
       $('#notion_form').submit();
+    });
+    $('#map_download').click(function(){
+      console.log("save");
+      html2canvas(document.querySelector("#notioanCanvas")).then(canvas => {
+        var imgsrc = canvas.toDataURL();
+        var a = document.createElement("a");
+        a.href_lang='image/png';
+        a.download = "Sheet.png";
+        a.href = imgsrc; 
+        a.click();
+      });
     });
   });
 </script>
