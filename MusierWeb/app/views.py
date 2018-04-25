@@ -34,11 +34,28 @@ def notionLoad(request):
 		Major = int(request.POST.get("Major"))
 		notions = request.POST.get("notions")
 		Title = request.POST.get("Title")
+		notion = []
+		num = 0
+		bgn = 1
+		for note in notions:
+			if note.isNumber():
+				if bgn:
+					num = int(note)-1
+					bgn = 0
+				else:
+					notion.append(num)
+					num = int(note)-1
+			elif note == "'":
+				num+=12;
+			elif note == ",":
+				num-=12;
+			elif note == "+":
+				notion.append(None)
 		Seq = main_version_2(Meter, Major)
 		Seq_main = Seq[0].get_notes()
 		Seq_chord = Seq[1].get_notes()
-		# Seq_main = []
-		# Seq_chord=[9, None, 2, 6, 2, None, -3, None, 0, None, 5, None, 12, None, 5, None, 9, 13, 9, None, 2, 0, None, 5, 9, None, 4, 2, 0, None, -3, None, 0, None, 5, 2, 5, None, 12, 9, 4, 6, None, 11, 9, None, 4, None, 9, None, 4, None, -3, 1, None, 6, -7, -3, None, None, None, None, None, None]
+		# Seq_chord = []
+		# Seq_main=[9, None, 2, 6, 2, None, -3, None, 0, None, 5, None, 12, None, 5, None, 9, 13, 9, None, 2, 0, None, 5, 9, None, 4, 2, 0, None, -3, None, 0, None, 5, 2, 5, None, 12, 9, 4, 6, None, 11, 9, None, 4, None, 9, None, 4, None, -3, 1, None, 6, -7, -3, None, None, None, None, None, None]
 		# for note in Seq_main:
 		#     if isinstance(note,type(1)):
 		#         Seq_chord.append(note-16)
