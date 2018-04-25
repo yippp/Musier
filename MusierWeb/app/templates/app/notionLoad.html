@@ -3,17 +3,17 @@
 <head>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Musier</title>
+  <title>Musier</title>
   {% load static %}
   <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
   <script type="text/javascript" src="{% static 'app/jquery-1.11.2.min.js' %}"></script>
-		<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="{% static 'app/notionLoad.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'app/notionLoad.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'app/abcjs-midi.css' %}">  
   <link rel="stylesheet" type="text/css" href="{% static 'app/loaders.min.css' %}">  
 </head>
@@ -72,7 +72,7 @@
               </div>
         </div>
 
-        <textarea class="form-control"  id="inputArea" style="margin-top: 100px;margin-bottom: 10px;resize: none;" placeholder="Input your prefer melody here.(Simple music notion.)
+        <textarea class="form-control"  id="inputArea" style="margin-top: 100px;margin-bottom: 10px;resize: none;" placeholder="Input your prefer melody here.(Simple musical notation.)
 e.g.12311231345345" rows = "3" form="notion_form"></textarea>
 
         <input class="btn btn-default col-sm-12 form-control" id = "submit" type="submit" value="Click Here To Go"/>
@@ -256,6 +256,22 @@ K:C
       return false;
 
     });
+
+    $('#Title').change(function(){
+        $('#editor-textarea').focus();
+        var Title = $('#Title').val(),
+            content = $('#editor-textarea').val();
+        var pos_T = content.indexOf("T"),
+            pos_end = content.indexOf("M")-1;
+        console.log(pos_T,pos_end)
+        $('#editor-textarea').iSelectField(pos_T+2);
+        $('#editor-textarea').iDelField(-(pos_end-pos_T-2));
+        $('#editor-textarea').iAddField(Title);
+        $('#editor-textarea').change();
+        $('#Title').focus();
+
+
+    });
 </script>
 <script type="text/javascript">
   $(document).ready(function(){
@@ -306,6 +322,7 @@ K:C
         a.click();
       });
     });
+
   });
 </script>
 </body>
