@@ -20,8 +20,7 @@
 
 
 <body>
-  <div class="main">
-    <div class="navbar-wrapper">
+  <div class="navbar-wrapper">
         <nav class="navbar navbar-inverse navbar-static-top">
           <div class="container">
             <div class="navbar-header">
@@ -40,12 +39,12 @@
             </div>
           </div>
         </nav>
-    </div>	
+  </div>  
+  <div class="main">
+    
     
     <div class="row">
-      <from action="/app/notionLoad/" method='POST' id="notion_form">
-      {% csrf_token %}
-      <div class="col-lg-3 col-md-3 col-sm-10 style-margin">
+      <from action="/app/notionLoad/" method='POST' id="notion_form">{% csrf_token %}<div class="col-lg-3 col-md-3 col-sm-10">
           <div class="form-group col-lg-12 col-md-12">
             <label class="label-control control-label col-lg-4 col-md-4 col-sm-4">Title</label>
             <div class="col-lg-8 col-md-8 col-sm-8">
@@ -72,17 +71,23 @@
                 </select>
               </div>
         </div>
-        <input class="btn btn-default col-sm-12" id = "submit" type="submit" value="Click Here To Go"/>
-        <div class = "btn btn-default col-sm-12 active" id = "waiting" style="display: none;">Loading<span>
+
+        <textarea class="form-control"  id="inputArea" style="margin-top: 100px;margin-bottom: 10px;resize: none;" placeholder="Input your prefer melody here.(Simple music notion.)
+e.g.12311231345345" rows = "3" form="notion_form"></textarea>
+
+        <input class="btn btn-default col-sm-12 form-control" id = "submit" type="submit" value="Click Here To Go"/>
+        <div class = "btn btn-default col-sm-12 form-control active" id = "waiting" style="display: none;">Loading<span>
           <div class="ball-clip-rotate-multiple" "><div><div></div></div></div></span>
         </div>
-        
-        <div class="btn btn-default label-control col-sm-12" id="midi_download_btn" style="display: none;">
+
+        <div class="btn btn-default label-control col-sm-12 form-control" id="midi_download_btn" style="display: none;">
           <a  id="midi_download" ></a>
         </div>
+
         <div class="btn btn-default label-control col-sm-12" id="map_download" style="display: none;">Save Sheet
         </div>
-        <textarea class="form-control"  id="editor-textarea" style="min-height: 500px;height:auto;margin-top: 200px;">X:1
+        
+        <textarea class="form-control"  id="editor-textarea" style="min-height: 500px;height:auto;margin-top: 30px;resize: none;">X:1
 T:
 M: 3/4
 L: 1/8
@@ -90,12 +95,11 @@ Q: 1/4=150
 V:1
 K:C
 %%MIDI program 25</textarea>
-      </div>
-      </from>
 
-      <div class="col-lg-7 col-md-7 col-sm-10 style-margin">
+      </div></from>
+
+      <div class="col-lg-7 col-md-7 col-sm-10">
         <div id= "midi"></div>
-        <textarea class="form-control" rows="6" id="notions"  form="notion_form" style="display:none;"></textarea>
         <div id = "notioanCanvas" style=""></div>
       </div>
     </div>
@@ -108,15 +112,11 @@ K:C
     </footer> 
   </div>
 
-
-
-
-
-
 <script src="{% static 'app/abcjs_midi_4.0.1-min.js' %}" type="text/javascript"></script>
 <script src="{% static 'app/html2canvas.min.js' %}" type="text/javascript"></script>
 <!-- <script src="{% static 'app/abcjs_basic_midi_3.2.1.js' %}" type="text/javascript"></script>
- -->  <script type="text/javascript">
+ -->  
+ <script type="text/javascript">
   window.onload = function() {
     abc_editor = new ABCJS.Editor(
       "editor-textarea", { 
@@ -132,74 +132,92 @@ K:C
     }
 </script>
 <script type="text/javascript">
-function copyToClipboard(maintext){
-  if (window.clipboardData){
-    window.clipboardData.setData("Text", maintext);
-    }else if (window.netscape){
-      try{
-        netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
-    }catch(e){
-        alert("该浏览器不支持一键复制！n请手工复制文本框链接地址～");
-    }
-    var clip = Components.classes['@mozilla.org/widget/clipboard;1'].createInstance(Components.interfaces.nsIClipboard);
-    if (!clip) return;
-    var trans = Components.classes['@mozilla.org/widget/transferable;1'].createInstance(Components.interfaces.nsITransferable);
-    if (!trans) return;
-    trans.addDataFlavor('text/unicode');
-    var str = new Object();
-    var len = new Object();
-    var str = Components.classes["@mozilla.org/supports-string;1"].createInstance(Components.interfaces.nsISupportsString);
-    var copytext=maintext;
-    str.data=copytext;
-    trans.setTransferData("text/unicode",str,copytext.length*2);
-    var clipid=Components.interfaces.nsIClipboard;
-    if (!clip) return false;
-    clip.setData(trans,null,clipid.kGlobalClipboard);
-  }
-  alert("以下内容已经复制到剪贴板nn" + maintext);
-}
-
-    //使用方法 
-    //$(文本域选择器).insertContent("插入的内容"); 
-    //在光标位置插入内容, 并选中 
-    (function($) { 
-    $.fn.extend({ 
-        insertContent: function(myValue, t) { 
-            var $t = $(this)[0]; 
-            if (document.selection) { //ie 
-                this.focus(); 
-                var sel = document.selection.createRange(); 
-                sel.text = myValue; 
-                this.focus(); 
-                sel.moveStart('character', -l); 
-                var wee = sel.text.length; 
-                if (arguments.length == 2) { 
-                var l = $t.value.length; 
-                sel.moveEnd("character", wee + t); 
-                t <= 0 ? sel.moveStart("character", wee - 2 * t - myValue.length) : sel.moveStart("character", wee - t - myValue.length); 
-                sel.select(); 
-                } 
-            } else if ($t.selectionStart || $t.selectionStart == '0') { 
-                var startPos = $t.selectionStart; 
-                var endPos = $t.selectionEnd; 
-                var scrollTop = $t.scrollTop; 
-                $t.value = $t.value.substring(0, startPos) + myValue + $t.value.substring(endPos, $t.value.length); 
-                this.focus(); 
-                $t.selectionStart = startPos + myValue.length; 
-                $t.selectionEnd = startPos + myValue.length; 
-                $t.scrollTop = scrollTop; 
-                if (arguments.length == 2) { 
-                $t.setSelectionRange(startPos - t, $t.selectionEnd + t); 
-                this.focus(); 
-                } 
-            } 
-            else { 
-            this.value += myValue; 
-            this.focus(); 
-            } 
-        } 
-        }) 
-    })(jQuery);
+{}(function($){
+    /*
+     * 文本域光标操作（选、添、删、取）
+     */
+    $.fn.extend({
+        /*
+         * 获取光标所在位置
+         */
+        iGetFieldPos:function(){
+            var field=this.get(0);
+            if(document.selection){
+                //IE
+                $(this).focus();
+                var sel=document.selection;
+                var range=sel.createRange();
+                var dupRange=range.duplicate();
+                dupRange.moveToElementText(field);
+                dupRange.setEndPoint('EndToEnd',range);
+                field.selectionStart=dupRange.text.length-range.text.length;
+                field.selectionEnd=field.selectionStart+ range.text.length;
+            }
+            return field.selectionStart;
+        },
+        /*
+         * 选中指定位置内字符 || 设置光标位置
+         * --- 从start起选中(含第start个)，到第end结束（不含第end个）
+         * --- 若不输入end值，即为设置光标的位置（第start字符后）
+         */
+        iSelectField:function(start,end){
+            var field=this.get(0);
+            //end未定义，则为设置光标位置
+            if(arguments[1]==undefined){
+                end=start;
+            }
+            if(document.selection){
+                //IE
+                var range = field.createTextRange();
+                range.moveEnd('character',-$(this).val().length);
+                range.moveEnd('character',end);
+                range.moveStart('character',start);
+                range.select();
+            }else{
+                //非IE
+                field.setSelectionRange(start,end);
+                $(this).focus();
+            }
+        },
+        /*
+         * 选中指定字符串
+         */
+        iSelectStr:function(str){
+            var field=this.get(0);
+            var i=$(this).val().indexOf(str);
+            i != -1 ? $(this).iSelectField(i,i+str.length) : false;
+        },
+        /*
+         * 在光标之后插入字符串
+         */
+        iAddField:function(str){
+            var field=this.get(0);
+            var v=$(this).val();
+            var len=$(this).val().length;
+            if(document.selection){
+                //IE
+                $(this).focus()
+                document.selection.createRange().text=str;
+            }else{
+                //非IE
+                var selPos=field.selectionStart;
+                $(this).val($(this).val().slice(0,field.selectionStart)+str+$(this).val().slice(field.selectionStart,len));
+                this.iSelectField(selPos+str.length);
+            };
+        },
+        /*
+         * 删除光标前面(-)或者后面(+)的n个字符
+         */
+        iDelField:function(n){
+            var field=this.get(0);
+            var pos=$(this).iGetFieldPos();
+            var v=$(this).val();
+            //大于0则删除后面，小于0则删除前面
+            $(this).val(n>0 ? v.slice(0,pos-n)+v.slice(pos) : v.slice(0,pos)+v.slice(pos-n));
+            $(this).iSelectField(pos-(n<0 ? 0 : n));
+        }
+    });
+})(jQuery);
     function isNum(s)
     {
         if(s!=null){
@@ -212,25 +230,31 @@ function copyToClipboard(maintext){
     }
 </script>
 <script type="text/javascript">
-    
+    var LongNote = 0;
+    var n_bgn = false;
     //文本框输入
     $("#inputArea").keypress(function(event){
-        var k = event.which; 
-        k = String.fromCharCode(k);
-        if (k == "|") {
-            $(this).insertContent("|");
-        };
-        if (isNaN(k)) {
-            switch(k){
-                case "w": $(this).insertContent("'");break;
-                case "s": $(this).insertContent(".");break;
-                case "d": $(this).insertContent("+");break;
-                case "a": $(this).insertContent("-");break;
-            }
-            return false;
-        };
-        $(this).insertContent(k); 
+      if (event.keyCode == 8){
         return false;
+      };
+      var k = event.which; 
+      
+      k = String.fromCharCode(k);
+      switch(k){
+          case "w": if(n_bgn){$(this).iAddField("'");}break;
+          case "s": if(n_bgn){$(this).iAddField(".");}break;
+          case "d": if(n_bgn){$(this).iAddField("+");LongNote += 1;console.log(LongNote);}break;
+          case "a": if(LongNote >= 1){console.log("Del");LongNote-=1;$(this).iDelField(1);};break;
+          case "1": $(this).iAddField("1");LongNote = 0;n_bgn=true;break;
+          case "2": $(this).iAddField("2");LongNote = 0;n_bgn=true;break;
+          case "3": $(this).iAddField("3");LongNote = 0;n_bgn=true;break;
+          case "4": $(this).iAddField("4");LongNote = 0;n_bgn=true;break;
+          case "5": $(this).iAddField("5");LongNote = 0;n_bgn=true;break;
+          case "6": $(this).iAddField("6");LongNote = 0;n_bgn=true;break;
+          case "7": $(this).iAddField("7");LongNote = 0;n_bgn=true;break;
+      }
+      return false;
+
     });
 </script>
 <script type="text/javascript">
@@ -241,7 +265,7 @@ function copyToClipboard(maintext){
     $('#notion_form').submit(function(){
       var Major = $("#Major").val();                
       var Meter = $("#Meter").val(); 
-      var notions = $("#notions").val(); 
+      var notions = $("#inputArea").val(); 
       var Title = $('#Title').val();
       $("#submit").hide();
       $('#waiting').show();

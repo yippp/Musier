@@ -34,6 +34,23 @@ def notionLoad(request):
 		Major = int(request.POST.get("Major"))
 		notions = request.POST.get("notions")
 		Title = request.POST.get("Title")
+		notion = []
+		num = 0
+		bgn = 1
+		for note in notions:
+			if note.isNumber():
+				if bgn:
+					num = int(note)-1
+					bgn = 0
+				else:
+					notion.append(num)
+					num = int(note)-1
+			elif note == "'":
+				num+=12;
+			elif note == ",":
+				num-=12;
+			elif note == "+":
+				notion.append(None)
 		Seq = main_version_2(Meter, Major)
 		Seq_main = Seq[0].get_notes()
 		Seq_chord = Seq[1].get_notes()
