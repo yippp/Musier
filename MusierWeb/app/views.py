@@ -11,7 +11,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR+"/app/")
 sys.path.append(BASE_DIR+"/app/Capriccia/")
 from Capriccia.GAMain import *
-
+Seq = [[],[]]
 
 def index(request):
 	return render(request, 'app/index.html', {})
@@ -19,7 +19,6 @@ def index(request):
 def notionLoad(request):
 	#GET request
 	if request.method == "GET":
-		print(sys.path)
 		return render(request, 'app/notionLoad.html', {})
 	#POST request
 	elif request.method == "POST":
@@ -39,7 +38,7 @@ def notionLoad(request):
 		bgn = 1
 		numDict=["1","^1","2","^2","3","4","^4","5","^5","6","^6","7"]
 		for note in notions:
-			if note.isNumber():
+			if note.isdigit():
 				if bgn:
 					num = numDict.index(note)
 					bgn = 0
@@ -127,3 +126,23 @@ K:bass
 
 	else:
 		return redirect("/app/notionLoad")
+
+def regenerate(request):
+	if request.method == 'POST':
+		return HttpResponse(json.dumps({"regenerated_notions":regenerated_notions}), content_type="application/json")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

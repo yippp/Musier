@@ -32,6 +32,21 @@ body {
 	margin-bottom: 10px;
 }
 
+.instruction{
+	display: block;
+	font-size: 10px;
+}
+
+.ico_key{
+	display: inline-block;
+	width:23px;
+	height:28px;
+	line-height:22px;
+	font-weight:bold;
+	text-align:center;
+	color:#363636;
+	background:url('./img/icon-keyboard.png') 0 -554px no-repeat;
+}
 
 
 #midi{
