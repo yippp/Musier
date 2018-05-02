@@ -5,10 +5,16 @@ body {
 	font-family: "Quicksand";
 }
 
-#header-wrapper {
+#header-wrapper:hover {
+		display: block;
 		background: url("./img/banner.jpg") center center;
 		background-size: 100% ;
 		height: 120px;
+}
+
+#header-wrapper {
+	display: block;
+	height: 1px;
 }
 
 #header {
