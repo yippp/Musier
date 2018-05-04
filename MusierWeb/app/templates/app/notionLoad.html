@@ -37,8 +37,8 @@
 
     <div class="row">
       <from action="/app/notionLoad/" method='POST' id="notion_form">{% csrf_token %}<div class="col-lg-4 col-md-4 col-sm-12">
-          <div class="form-group col-lg-12 col-md-12">
-            <label class="label-control control-label col-lg-4 col-md-4 col-sm-4">Title</label>
+          <div class="form-group col-lg-12 col-md-12" style="display: none" id="TitleInput">
+            <label class="label-control control-label col-lg-4 col-md-4 col-sm-4" >Title</label>
             <div class="col-lg-8 col-md-8 col-sm-8">
               <input id = "Title" class="form-control" placeholder="Title of this song">
             </div>
@@ -87,7 +87,7 @@ e.g.12311231345345" rows = "3" form="notion_form"></textarea>
         <div class="btn btn-default label-control col-sm-12" id="map_download" style="display: none;">Save Sheet
         </div>
         
-        <textarea class="form-control"  id="editor-textarea" style="min-height: 500px;height:auto;margin-top: 30px;resize: none;">X:1
+        <textarea class="form-control"  id="editor-textarea" readonly="readonly" style="min-height: 500px;height:auto;margin-top: 30px;resize: none;">X:1
 T:
 M: 3/4
 L: 1/8
@@ -148,10 +148,13 @@ K:C
           success: function(result, statues, xml){ 
             $('#editor-textarea').val(result.generated_notions);
             $('#editor-textarea').change();
+            $('#TitleInput').show();
             $("#submit").show();
             $('#midi_download_btn').show();
             $('#map_download').show();
             $('#waiting').hide();
+            $("#Major").attr("readonly","readonly");
+            $("#Meter").attr("readonly","readonly");
           },
           error: function(){
               alert("false");
