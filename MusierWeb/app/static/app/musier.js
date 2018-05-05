@@ -88,27 +88,163 @@
 /*
 文本框代理
 */
-var LongNote = 0;
-var n_bgn = false;
-$("#inputArea").keypress(function(event){
-  if (event.keyCode == 8){
-    return false;
+var LongNote = 0,
+    pitch = 0,
+    sharp = 0;
+var lenUnLock = false,
+    pitUnLock = false,
+    sharpUnLock = false;
+$("#inputArea").keydown(function(event){
+  switch (event.keyCode) {
+    case 46: // Delete
+    case 8: // Backspace
+      var pos=$(this).iGetFieldPos();
+      var v=$(this).val();
+      console.log(pos);
+      switch (v.charAt(pos-1)){
+        case ",":
+          if((pitch <= -1)&&pitUnLock){
+            pitch += 1;
+            $(this).iDelField(1);
+          }else if(pitUnLock&&(pitch <= 1)){
+            $(this).iAddField("'");
+            pitch += 1;
+          }
+          break;
+        case "'":
+          if((pitch >= 1)&&pitUnLock){
+            pitch -= 1;
+            $(this).iDelField(1);
+          }else if(pitUnLock&&(pitch >= -1)){
+            $(this).iAddField(",");
+            pitch -= 1;
+          }
+          break;
+        case "+":
+          if(LongNote >= 1){
+            LongNote -= 1;
+            $(this).iDelField(1);
+          }
+          if(LongNote == 0){
+            pitUnLock = true;
+          };
+          break;
+        case "1":
+        case "2":
+        case "3":
+        case "4":
+        case "5":
+        case "6":
+        case "7":
+          for(var i = v.length-2; i >=0;i-- ){
+            var note = v.charAt(i);
+            switch (note){
+              case ",":
+                pitch -= 1;
+                break;
+              case "'":
+                pitch += 1;
+                break;
+              case "+":
+                LongNote += 1;
+                break;
+            }
+            if (typeof(note) == "number"){
+              break;
+            }
+
+          }
+          $(this).iDelField(1);
+          break;
+      }
+      return false;
+      break;
   };
+});
+
+$("#inputArea").keypress(function(event){
+
   var k = event.which; 
   
   k = String.fromCharCode(k);
   switch(k){
-      case "w": if(n_bgn){$(this).iAddField("'");}break;
-      case "s": if(n_bgn){$(this).iAddField(",");}break;
-      case "d": if(n_bgn){$(this).iAddField("+");LongNote += 1;}break;
-      case "a": if(LongNote >= 1){LongNote-=1;$(this).iDelField(1);};break;
-      case "1": $(this).iAddField("1");LongNote = 0;n_bgn=true;break;
-      case "2": $(this).iAddField("2");LongNote = 0;n_bgn=true;break;
-      case "3": $(this).iAddField("3");LongNote = 0;n_bgn=true;break;
-      case "4": $(this).iAddField("4");LongNote = 0;n_bgn=true;break;
-      case "5": $(this).iAddField("5");LongNote = 0;n_bgn=true;break;
-      case "6": $(this).iAddField("6");LongNote = 0;n_bgn=true;break;
-      case "7": $(this).iAddField("7");LongNote = 0;n_bgn=true;break;
+      case "w": 
+        if((pitch <= -1)&&pitUnLock){
+          pitch += 1;
+          $(this).iDelField(1);
+        }else if(pitUnLock&&(pitch <= 1)){
+          $(this).iAddField("'");
+          pitch += 1;
+        }
+        break;
+      case "s": 
+        if((pitch >= 1)&&pitUnLock){
+          pitch -= 1;
+          $(this).iDelField(1);
+        }else if(pitUnLock&&(pitch >= -1)){
+          $(this).iAddField(",");
+          pitch -= 1;
+        }
+        break;
+      case "d": 
+        if(lenUnLock){
+          $(this).iAddField("+");
+          LongNote += 1;
+          pitUnLock = false;
+        }
+        break;
+      case "a": 
+        if(LongNote >= 1){
+          LongNote -= 1;
+          $(this).iDelField(1);
+        }
+        if(LongNote == 0){
+          pitUnLock = true;
+        };
+        console.log(LongNote)
+        break;
+      case "1": 
+        $(this).iAddField("1");
+        LongNote = 0;
+        pitUnLock = true;
+        lenUnLock = true;
+        break;
+      case "2": 
+        $(this).iAddField("2");
+        LongNote = 0;
+        pitUnLock = true;
+        lenUnLock = true;
+        break;
+      case "3": 
+        $(this).iAddField("3");
+        LongNote = 0;
+        pitUnLock = true;
+        lenUnLock = true;
+        break;
+      case "4": 
+        $(this).iAddField("4");
+        LongNote = 0;
+        pitUnLock = true;
+        lenUnLock = true;
+        break;
+      case "5": 
+        $(this).iAddField("5");
+        LongNote = 0;
+        pitUnLock=true;
+        lenUnLock=true;
+        break;
+      case "6": 
+        $(this).iAddField("6");
+        LongNote = 0;
+        pitUnLock=true;
+        lenUnLock=true;
+        break;
+      case "7": 
+        $(this).iAddField("7");
+        LongNote = 0;
+        pitUnLock=true;
+        lenUnLock=true;
+        break;
   }
   return false;
 });
