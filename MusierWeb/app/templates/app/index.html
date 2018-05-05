@@ -9,76 +9,214 @@
 	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	{% load static %}
-	<link rel="stylesheet" type="text/css" href="{% static 'app/home.css' %}" />
-<<<<<<< HEAD
-	
-=======
->>>>>>> Training
+  <link rel="stylesheet" href="{% static 'app/main.css' %}" />
 	<script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
 </head>
 
 
-<body>
+<body class="homepage">
+
 	
-    <div class="navbar-wrapper">
-        <nav class="navbar navbar-inverse navbar-static-top">
-          <div class="container">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="#"> Musier </a>
+	
+  <div id="page-wrapper">
+
+    <!-- Header -->
+      <div id="header-wrapper" class="wrapper">
+        <div id="header">
+
+          <!-- IMAX -->
+            <div id="logo">
+              <h1>Musier</a></h1>
+              <p>An Automatic Melody Generator</p>
             </div>
-            <div id="navbar" class="navbar-collapse collapse">
-              <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="/app/notionLoad">Notions</a></li>
+
+          <!-- Navbar -->
+          <nav id="nav">
+              <ul>
+                <li class="current"><a href="/app">Home</a></li>
+                <li><a href="/app/notionLoad">Generator</a></li>
               </ul>
+            </nav>
+		
+        </div>
+      </div>
+
+    <!-- Introduction -->
+      <div id="intro-wrapper" class="wrapper style1">
+        <div class="title">Introduction</div>
+        <section id="intro" class="container">
+          <p class="style1">- What is Musier? -</p>
+          <p class="style2">
+			It provides the amateurs with<br class="mobile-hide" />
+			the chances to compose pieces of melody.
+          </p>
+          <p class="style3">Music is a part of the daily life. And every of us enjoys various melodies.<br/>Some amateurs may have the dream being composers, but lack professional knowledge.<br/>It is quite difficult to acquire enough information right away in a completely unfamiliar area.<br/>If you are the one who wants to be a composer, but feeling puzzled with the complex commands,<br/>Musier is the one can do you a favour!<br/>Make the choices from the lists & Enter your musical inspirations.<br/>Surprises are ready for you!</p>
+          <ul class="actions">
+            <li><a href="/app/notionLoad" class="button style3 big">Have a try!</a></li>
+          </ul>
+        </section>
+      </div>
+
+    <!-- Guideline -->
+      <div class="wrapper style2">
+        <div class="title">Guideline</div>
+        <div id="main" class="container">
+
+          <!-- Image -->
+            <a href="#" class="image featured">
+              <img src="{% static 'app/img/pic01.jpg' %}" alt="" />
+            </a>
+
+          <!-- Features -->
+            <section id="features">
+              <header class="style1">
+                <h2>- Tutorials are all set! -</h2>
+                <p>The following contents are parts of the guidebook for green hands.</p>
+              </header>
+              <div class="feature-list">
+                <div class="row">
+                  <div class="6u 12u(mobile)">
+                    <section>
+                      <h3 class="icon fa-comment">1. Name the title of your product.</h3>
+                      <p>A charming name is needed for your later melody generated. Innovative ideas are wholly welcome!</p>
+                    </section>
+                  </div>
+                  <div class="6u 12u(mobile)">
+                    <section>
+                      <h3 class="icon fa-refresh">2. Choose Major & Meter from the lists.</h3>
+                      <p>Major & Meter are the soul and skeleton for a piece of melody. You can also define them as rules.</p>
+                    </section>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="6u 12u(mobile)">
+                    <section>
+                      <h3 class="icon fa-picture-o">3. Enter your ideas as the prologue.</h3>
+                      <p>Please tell Musier your thoughts by entering them in numbered musical notations by keyboard, like 11556654433221.<br/>Guess the name of the example!~</p>
+                    </section>
+                  </div>
+                  <div class="6u 12u(mobile)">
+                    <section>
+                      <h3 class="icon fa-cog">4. Extra info. on inputs.</h3>
+                      <p>Number 1-7: musical notes<br/>W, S: rise & drop an octave<br/>A, D: shorten & extend the beat<br/>J, K: flat & sharp<br/>Backspace: delete the last input</p>
+                    </section>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="6u 12u(mobile)">
+                    <section>
+                      <h3 class="icon fa-wrench">5. "Click Here to Go" & Save your work!</h3>
+                      <p>The settings are ready for melody generation! Just click the button and wait for a while to achieve your midi file and staff sheet!</p>
+                    </section>
+                  </div>
+                  <div class="6u 12u(mobile)">
+                    <section>
+                      <h3 class="icon fa-check">6. Change possible defects.</h3>
+                      <p>You can choose to improve the notations by changing specific details of the product on the bottom-left of the page before your saving.</p>
+                    </section>
+                  </div>
+                </div>
+			<!--	
+              </div>
+              <ul class="actions actions-centered">
+                <li><a href="#" class="button style1 big">Get Started</a></li>
+                <li><a href="#" class="button style2 big">More Info</a></li>
+              </ul>-->
+            </section>
+
+        </div>
+      </div>
+
+    <!-- Algoritms -->
+      <div class="wrapper style3">
+        <div class="title">Algorithms</div>
+        <div id="highlights" class="container">
+          <div class="row 150%">
+            <div class="6u 12u(mobile)">
+              <section class="highlight">
+                <a class="image featured"><img src="{% static 'app/img/try0.png' %}" alt="" /></a>
+                <h3>Simulated Annealing Algorithm</h3>
+                <p>It is applied to generate "UNIT"s.<br/>The combination of these two<br/>are better than Markov chain.</p>
+                <ul class="actions">
+                  <li><a href="https://en.wikipedia.org/wiki/Simulated_annealing" class="button style1">Learn More</a></li>
+                </ul>
+              </section>
             </div>
+            <div class="6u 12u(mobile)">
+              <section class="highlight">
+                <a class="image featured"><img src="{% static 'app/img/try1.png' %}" alt="" /></a>
+                <h3>Genetic Algorithm</h3>
+                <p>Use “UNIT”s as genes.<br/>A music period is a combination of “UNIT”s,<br/>which can be regarded as a chromosome.</p>
+                <ul class="actions">
+                  <li><a href="https://en.wikipedia.org/wiki/Genetic_algorithm" class="button style1">Learn More</a></li>
+                </ul>
+              </section>
+            </div>
+            
           </div>
-        </nav>
-    </div>	
-	
-
-	<div class="cover-container">
-<<<<<<< HEAD
-		<img src="../../static/app/img/1.png" alt="Cover" width="1272" height="300">
-=======
-		<img src="{% static 'app/img/1.png' %}" alt="Cover" width="1272" height="300">
->>>>>>> Training
-	</div>	
-	
-	<div class="container marketing">
-	<!-- Three columns of text below the carousel -->
-      <div class="row">
-        <div class="col-lg-4">
-          <!-- img class="img-circle" src="sub.png" alt="subtitle" width="170" height="170" -->
-          <h2>Aim</h2>
-          <p>The automatic melody generator provides the amateur users with the opportunity to compose pieces of melody.</p>
-        </div>
-        <div class="col-lg-4">
-          <!--img class="img-circle" src="sub.png" alt="subtitle" width="170" height="170"-->
-          <h2>Algorithm</h2>
-          <p>Simulated Annealing Algorithm & Genetic Algorithm</p>
-        </div>
-        <div class="col-lg-4">
-          <!--img class="img-circle" src="sub.png" alt="subtitle" width="170" height="170"-->
-          <h2>Staff</h2>
-          <p>Mo Fan 115010204 Li Kengjie 115010177 Wang Junce 115010231 Ye Shuqian 115010269 Zhang Ruoqing 115010096 </p>
         </div>
       </div>
-	</div>
 
-	
-    <footer class="footer">
-      <div class="container foot">
-        <p> To be completed by MLWYZ.</p>
+    <!-- Footer -->
+      <div id="footer-wrapper" class="wrapper">
+        <div class="title">Contact Us</div>
+        <div id="footer" class="container">
+          <header class="style1">
+            <h2>Any advice for optimizing Musier?</h2>
+            <p>
+              Please be free to contact us to reflect you points of view! :D
+            </p>
+          </header>
+          <hr />
+
+              <!-- Contact -->
+                <section class="feature-list small">
+                  <div class="row">
+                    <div class="4u 12u(mobile)">
+                      <section>
+                        <h3 class="icon fa-home">Mailing Address</h3>
+                        <p>
+						  2001 Longxiang Road,<br/>Longgang District,<br/>Shenzhen<br/>
+						  Postal Code : 518172
+                        </p>
+                      </section>
+                    </div>
+                    <div class="4u 12u(mobile)">
+                      <section>
+                        <h3 class="icon fa-phone">Staff</h3>
+                        <p>
+                          Mo Fan & Wang Junce<br/>
+						  Li Kengjie & Zhang Ruoqing<br/>
+						  Ye Shuqian
+                        </p>
+                      </section>
+                    </div>
+					<div class="4u 12u(mobile)">
+                      <section>
+                        <h3 class="icon fa-email">Email Address</h3>
+                        <p>
+                          115010269@cuhk.link.edu.cn
+                        </p>
+                      </section>
+                    </div>
+					
+                  </div>
+                </section>
+
+
+          <hr />
+        </div>
+        <div id="copyright">
+          <ul>
+            <li>&copy; CSC4001 Project</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+          </ul>
+        </div>
       </div>
-    </footer>	
-	
-	
-  
+
+  </div>
+
+  <!-- Scripts -->
+
+
 </body>
 </html>

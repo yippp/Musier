@@ -6,5 +6,6 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('notionLoad/', views.notionLoad, name='notionLoad')
+    path('notionLoad/', views.notionLoad, name='notionLoad'),
+    path('regenerate/',views.regenerate, name='regenerate')
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
