@@ -39,20 +39,15 @@ def notionLoad(request):
 		bgn = 1
 		numDict=["1","^1","2","^2","3","4","^4","5","^5","6","^6","7"]
 		for note in notions:
-			if note.isNumber():
-				if bgn:
-					num = numDict.index(note)
-					bgn = 0
-				else:
-					notion.append(num)
-					num = numDict.index(note)
+			if note.isnumeric():
+				notion.append(numDict.index(note))
 			elif note == "'":
-				num+=12;
+				notion[-1] += 12
 			elif note == ",":
-				num-=12;
+				notion[-1] -= 12
 			elif note == "+":
 				notion.append(None)
-		Seq = main_version_2(Meter, Major)
+		Seq = main_version_2(Meter, Major, notion)
 		Seq_main = Seq[0].get_notes()
 		Seq_chord = Seq[1].get_notes()
 		# Seq_chord = []

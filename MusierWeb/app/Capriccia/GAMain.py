@@ -43,7 +43,7 @@ def period_evaluation(p, major):
             score += (len(notes) - y[0]) * 80  # ENDING as the last note
     score -= len(note_list)
     for i in range(p.length):
-        if p[i].chordID in  PRIOR_CHORD[major]:
+        if p[i].chordID in PRIOR_CHORD[major]:
             score += 10
         if (i >= 1) and ((p[i].chordID - p[i - 1].chordID) % 7 in {1, 3, 5}):
             score += 15
@@ -69,20 +69,32 @@ def init_period():
     return p
 
 
-def main_version_1(meter, major):
+def main_version_1(meter, major, user_input=None):
     # Meter: {3, 4}
     # Major: {0, 1}
     init_generation = []
     period_length = 8
     unit_length = meter * 2
+    if user_input is None:
+        user_input = []
+    j = 0
+    fixed_units = []
+    while j <= len(user_input) - 1:
+        fixed_units.append(user_input[j:j+unit_length])
+        j += unit_length
+    if (len(fixed_units) > 0) and (len(fixed_units[-1]) < unit_length):
+        fixed_units[-1].extend([None] * (unit_length - len(fixed_units[-1])))
+    for j in range(len(fixed_units)):
+        fixed_units[j] = unit(fixed_units[j], mutable=False)
+        fixed_units[j].update_chord(meter)
     for i in range(POPULATION):
-        p = []
-        for j in range(period_length):
+        p = deepcopy(fixed_units)
+        for j in range(len(fixed_units), period_length):
             u = []
             for k in range(unit_length):
                 ran = random.randint(LOWER_LIMIT, UPPER_LIMIT)
                 u.append(ran)
-            u = unit(u)
+            u = unit(u, mutable=True)
             u.update_chord(meter)
             if (j == period_length - 1) or (j == period_length // 2 - 1):  # Ending units
                 u = SA_optimize(u, T_ORIGIN, DELTA, ITERATIONS, ending = True)
@@ -94,13 +106,13 @@ def main_version_1(meter, major):
     model = GABase(0.6, 0.02, init_generation, period_evaluation, major)
     for k in range(UPDATE_TIME):
         model.update_periods()
-    return(model.generation[0])
+    return model.generation[0]
 
 
-def main_version_2(meter, major):
+def main_version_2(meter, major, user_input=None):
     period_length = 8
     unit_length = meter * 2
-    primary = main_version_1(meter, major)
+    primary = main_version_1(meter, major, user_input)
     # primary = init_period()
     init_generation = []
     for i in range(POPULATION):
@@ -136,4 +148,4 @@ def main_version_2(meter, major):
     return primary, chord_track
 
 
-# x = main_version_2(3,0)
+# print(main_version_2(3,0,[0, None, 2, None, 4, None, 0, None, 7, None, None, None])[0].get_notes())

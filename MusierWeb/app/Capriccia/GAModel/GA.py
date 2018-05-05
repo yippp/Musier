@@ -60,6 +60,8 @@ class GABase:
 
     def mutate_period(self, p):
         ran = random.randint(0, self.period_length - 1)
+        if not p.units[ran].mutable:
+            return p
         if (ran == self.period_length - 1) or (ran == self.period_length // 2 - 1):
             p.units[ran].chordID = random.randint(1, len(CHORD) - 1)
             p.units[ran] = SA_optimize(p.units[ran], T_ORIGIN, DELTA, ITERATIONS, ending = True, vari = False)

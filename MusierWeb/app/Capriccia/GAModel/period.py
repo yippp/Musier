@@ -3,13 +3,14 @@ from copy import deepcopy
 
 
 class unit:
-    def __init__(self, notes=None, chordID=0):
+    def __init__(self, notes=None, chordID=0, mutable=True):
         if notes is None:
             self.notes = []
         else:
             self.notes = deepcopy(notes)
         self.length = len(self.notes)
         self.chordID = chordID
+        self.mutable = mutable
         self.chord_score = NULL_SCORE
         self.score = NULL_SCORE
 
