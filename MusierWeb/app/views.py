@@ -11,7 +11,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR+"/app/")
 sys.path.append(BASE_DIR+"/app/Capriccia/")
 from Capriccia.GAMain import *
-
+Seq = [[],[]]
 
 def index(request):
 	return render(request, 'app/index.html', {})
@@ -19,7 +19,6 @@ def index(request):
 def notionLoad(request):
 	#GET request
 	if request.method == "GET":
-		print(sys.path)
 		return render(request, 'app/notionLoad.html', {})
 	#POST request
 	elif request.method == "POST":
@@ -36,18 +35,49 @@ def notionLoad(request):
 		Title = request.POST.get("Title")
 		notion = []
 		num = 0
-		bgn = 1
+		bgn = True
+		sharp = False
+		flat = False
 		numDict=["1","^1","2","^2","3","4","^4","5","^5","6","^6","7"]
 		for note in notions:
+<<<<<<< HEAD
 			if note.isnumeric():
 				notion.append(numDict.index(note))
+=======
+			node = []
+			if note.isdigit():
+				if bgn:
+					num = numDict.index(note)
+					bgn = False
+				else:
+					notion += ([num]+node)
+					num = numDict.index(note)
+				if sharp:
+					num += 1
+					sharp = False
+				elif flat:
+					num -= 1
+					flat = False
+			elif note == "^":
+				sharp = True
+			elif note == "_":
+				flat = True
+>>>>>>> 75f0150187c34181a780628aadbe3112d6bb7951
 			elif note == "'":
 				notion[-1] += 12
 			elif note == ",":
 				notion[-1] -= 12
 			elif note == "+":
+<<<<<<< HEAD
 				notion.append(None)
 		Seq = main_version_2(Meter, Major, notion)
+=======
+				node.append(None)
+		global Seq
+		print(Seq)
+		Seq = main_version_2(Meter, Major)
+		print(Seq)
+>>>>>>> 75f0150187c34181a780628aadbe3112d6bb7951
 		Seq_main = Seq[0].get_notes()
 		Seq_chord = Seq[1].get_notes()
 		# Seq_chord = []
@@ -122,3 +152,23 @@ K:bass
 
 	else:
 		return redirect("/app/notionLoad")
+
+def regenerate(request):
+	if request.method == 'POST':
+		return HttpResponse(json.dumps({"regenerated_notions":regenerated_notions}), content_type="application/json")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
