@@ -243,6 +243,7 @@ $("#inputArea").keypress(function(event){
         }
         total = total+LongNote+1;
         LongNote = 0;
+        pitch = 0;
         pitUnLock = true;
         n_bgn = true;
         break;
@@ -255,6 +256,7 @@ $("#inputArea").keypress(function(event){
         }
         total = total+LongNote+1;
         LongNote = 0;
+        pitch = 0;
         pitUnLock = true;
         n_bgn = true;
         break;
@@ -267,6 +269,7 @@ $("#inputArea").keypress(function(event){
         }
         total = total+LongNote+1;
         LongNote = 0;
+        pitch = 0;
         pitUnLock = true;
         n_bgn = true;
         break;
@@ -279,6 +282,7 @@ $("#inputArea").keypress(function(event){
         }
         total = total+LongNote+1;
         LongNote = 0;
+        pitch = 0;
         pitUnLock = true;
         n_bgn = true;
         break;
@@ -291,6 +295,7 @@ $("#inputArea").keypress(function(event){
         }
         total = total+LongNote+1;
         LongNote = 0;
+        pitch = 0;
         pitUnLock = true;
         n_bgn = true;
         break;
@@ -303,6 +308,7 @@ $("#inputArea").keypress(function(event){
         }
         total = total+LongNote+1;
         LongNote = 0;
+        pitch = 0;
         pitUnLock = true;
         n_bgn = true;
         break;
@@ -315,6 +321,7 @@ $("#inputArea").keypress(function(event){
         }
         total = total+LongNote+1;
         LongNote = 0;
+        pitch = 0;
         pitUnLock = true;
         n_bgn = true;
         break;
