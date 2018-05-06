@@ -38,9 +38,11 @@ def notionLoad(request):
 		bgn = True
 		sharp = False
 		flat = False
+		print(notions)
 		numDict=["1","^1","2","^2","3","4","^4","5","^5","6","^6","7"]
+		node = []
 		for note in notions:
-			node = []
+			print(note)
 			if note.isdigit():
 				if bgn:
 					num = numDict.index(note)
@@ -48,6 +50,7 @@ def notionLoad(request):
 				else:
 					notion += ([num]+node)
 					num = numDict.index(note)
+					node = []
 				if sharp:
 					num += 1
 					sharp = False
@@ -64,10 +67,12 @@ def notionLoad(request):
 				num-=12;
 			elif note == "+":
 				node.append(None)
+				print(node)
+		notion += [num]+node
 		print(notion)
 		global Seq
 		print(Seq)
-		Seq = main_version_2(Meter, Major)
+		Seq = main_version_2(Meter, Major, notion)
 		print(Seq)
 		Seq_main = Seq[0].get_notes()
 		Seq_chord = Seq[1].get_notes()
