@@ -106,6 +106,8 @@ def main_version_1(meter, major, user_input=None):
                 u = deepcopy(p[-1])
                 u.chordID = random.randint(1, len(CHORD) - 1)
                 u.mutable = True
+            if j == period_length - 1:
+                u.chordID = ENDING_CHORD[major]
             if (j == period_length - 1) or (j == period_length // 2 - 1):  # Ending units
                 u = SA_optimize(u, T_ORIGIN, DELTA, ITERATIONS, ending = True)
             else:
