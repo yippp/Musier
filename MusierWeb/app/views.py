@@ -41,7 +41,6 @@ def notionLoad(request):
 		numDict=["1","^1","2","^2","3","4","^4","5","^5","6","^6","7"]
 		node = []
 		for note in notions:
-			print(note)
 			if note.isdigit():
 				if bgn:
 					num = numDict.index(note)
@@ -66,8 +65,8 @@ def notionLoad(request):
 				num-=12;
 			elif note == "+":
 				node.append(None)
-				print(node)
-		notion += [num]+node
+		if notions:
+			notion += [num]+node
 		global Seq
 		Seq = main_version_2(Meter, Major, notion)
 		print(Seq)

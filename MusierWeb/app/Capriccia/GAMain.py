@@ -84,18 +84,28 @@ def main_version_1(meter, major, user_input=None):
         j += unit_length
     if (len(fixed_units) > 0) and (len(fixed_units[-1]) < unit_length):
         fixed_units[-1].extend([None] * (unit_length - len(fixed_units[-1])))
-    for j in range(len(fixed_units)):
+    fixed_length = len(fixed_units)
+    for j in range(fixed_length):
         fixed_units[j] = unit(fixed_units[j], mutable=False)
         fixed_units[j].update_chord(meter)
     for i in range(POPULATION):
         p = deepcopy(fixed_units)
-        for j in range(len(fixed_units), period_length):
-            u = []
-            for k in range(unit_length):
-                ran = random.randint(LOWER_LIMIT, UPPER_LIMIT)
-                u.append(ran)
-            u = unit(u, mutable=True)
-            u.update_chord(meter)
+        for j in range(fixed_length, period_length):
+            if fixed_length == 0:
+                u = []
+                for k in range(unit_length):
+                    ran = random.randint(LOWER_LIMIT, UPPER_LIMIT)
+                    u.append(ran)
+                u = unit(u, mutable=True)
+                u.update_chord(meter)
+            elif fixed_length == 2:
+                u = deepcopy(p[-2])
+                u.chordID = random.randint(1, len(CHORD) - 1)
+                u.mutable = True
+            else:
+                u = deepcopy(p[-1])
+                u.chordID = random.randint(1, len(CHORD) - 1)
+                u.mutable = True
             if (j == period_length - 1) or (j == period_length // 2 - 1):  # Ending units
                 u = SA_optimize(u, T_ORIGIN, DELTA, ITERATIONS, ending = True)
             else:
