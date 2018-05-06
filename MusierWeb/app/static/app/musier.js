@@ -345,7 +345,11 @@ $('#Title').change(function(){
     $('#editor-textarea').iAddField(Title);
     $('#editor-textarea').change();
     $('#Title').focus();
+});
 
+$('#Meter').change(function(){
+  meter = $(this).val()+2;
+  console.log(meter);
 
 });
 
