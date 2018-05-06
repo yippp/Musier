@@ -178,6 +178,17 @@ $("#inputArea").keydown(function(event){
             lenUnLock =true;
           }
           $(this).iDelField(1);
+          if ($(this).val().length === 0){
+            LongNote = 0;
+            pitch = 0;
+            sharp = 0;
+            total = 0;
+            meter = parseInt($('#Meter').val())+2;
+            lenUnLock = false;
+            pitUnLock = false;
+            sharpUnLock = false;
+            n_bgn = false;
+          }
           break;
       }
       return false;
@@ -196,18 +207,15 @@ $("#inputArea").keypress(function(event){
         if((pitch <= -1)&&pitUnLock){
           pitch += 1;
           $(this).iDelField(1);
-        }else if(pitUnLock&&(pitch <= 1)){
+        }else if(pitUnLock&&(pitch === 0)){
           $(this).iAddField("'");
           pitch += 1;
         }
         break;
       case "s": 
-        if((pitch >= 1)&&pitUnLock){
+        if((pitch === 1)&&pitUnLock){
           pitch -= 1;
           $(this).iDelField(1);
-        }else if(pitUnLock&&(pitch >= -1)){
-          $(this).iAddField(",");
-          pitch -= 1;
         }
         break;
       case "d": 
@@ -228,10 +236,10 @@ $("#inputArea").keypress(function(event){
           LongNote -= 1;
           $(this).iDelField(1);
         }
-        if(LongNote == 0){
-          pitUnLock = true;
-        };
         if (n_bgn){
+          if(LongNote == 0){
+            pitUnLock = true;
+          };
           lenUnLock = true;
         }
         break;
