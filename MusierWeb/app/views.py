@@ -32,6 +32,7 @@ def notionLoad(request):
 		Meter = int(Meter) + 2 # 3 for 3/4; 4 for 4/4
 		Major = int(request.POST.get("Major"))
 		notions = request.POST.get("notions")
+		print(notions)
 		Title = request.POST.get("Title")
 		notion = []
 		num = 0
