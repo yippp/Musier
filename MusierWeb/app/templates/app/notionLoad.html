@@ -69,9 +69,9 @@ e.g.12311231345345" rows = "3" form="notion_form"></textarea>
 
         <div class="instruction">
           Instruction:<br/>  
-          <span class="ico_key">1</span>  ~  <span class="ico_key">7</span> :  musical notes<br/>
-          <span class="ico_key">W</span>  <span class="ico_key">S</span>  :  rise & drop an octave<br/>
-          <span class="ico_key">A</span>  <span class="ico_key">D</span>  :  shorten & extend the beat
+          <span class="ico_key">1</span>  ~  <span class="ico_key">7</span> :  musical notes for `do` to `ti`.<br/>
+          <span class="ico_key">W</span>  <span class="ico_key">S</span>  :  rise & drop an octave. e.g. `do` <--> `dŏ`<br/>
+          <span class="ico_key">A</span>  <span class="ico_key">D</span>  :  shorten & extend half of the beat. e.g. 1 <--> 1.
         </div>
 
         <input class="btn btn-default col-sm-12 form-control" id = "submit" type="submit" value="Click Here To Go"/>
@@ -86,7 +86,7 @@ e.g.12311231345345" rows = "3" form="notion_form"></textarea>
         <div class="btn btn-default label-control col-sm-12" id="map_download" style="display: none;">Save Sheet
         </div>
         
-        <textarea class="form-control"  id="editor-textarea" readonly="readonly" style="min-height: 500px;height:auto;margin-top: 30px;resize: none;">X:1
+        <textarea class="form-control"  id="editor-textarea" readonly="readonly" style="min-height: 450px;height:auto;margin-top: 30px;resize: none;">X:1
 T:
 M: 3/4
 L: 1/8
@@ -94,6 +94,14 @@ Q: 1/4=150
 V:1
 K:C
 %%MIDI program 25</textarea>
+      <div class="col-lg-12 col-md-12" style="padding-right: 0;margin-top: 5px;">
+        <div class="input-group pull-right">
+          <span >
+            <input id="abccomfirm" type="checkbox" aria-label="...">
+          </span>
+          I know what is <a href="http://abcnotation.com/blog/2009/12/23/how-to-get-started-with-abc-notation/" target="_Blank">ABC notion</a> is, and I want to edit my music sheet.
+        </div>
+      </div>
 
       </div></from>
 
@@ -165,6 +173,14 @@ K:C
     });
     $('#submit').click(function(){
       $('#notion_form').submit();
+    });
+    $('#abccomfirm').change(function(){
+      if ($(this).is(":checked")){
+        $('#editor-textarea').removeAttr("readonly");
+      }
+      else{
+        $('#editor-textarea').attr("readonly","readonly")
+      }
     });
     $('#map_download').click(function(){
       html2canvas(document.querySelector("#notioanCanvas")).then(canvas => {

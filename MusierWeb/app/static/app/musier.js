@@ -90,24 +90,25 @@
 */
 var LongNote = 0,
     pitch = 0,
-    sharp = 0;
+    sharp = 0,
+    total = 0,
+    meter = parseInt($('#Meter').val())+2;
+console.log("meter",meter);
 var lenUnLock = false,
     pitUnLock = false,
     sharpUnLock = false;
 $("#inputArea").keyup(function(evt) {
   var content = $(this).val();
   content = content.replace(/[^\x00-\xff]/g,"");
-  content = content.replace(/[A-Za-z\s]/g,"");
+  content = content.replace(/[A-Za-z\s ]/g,"");
   $(this).val(content);
 });    
 $("#inputArea").keydown(function(event){
-  console.log(event.keyCode)
   switch (event.keyCode) {
     case 46: // Delete
     case 8: // Backspace
       var pos=$(this).iGetFieldPos();
       var v=$(this).val();
-      console.log(pos);
       switch (v.charAt(pos-1)){
         case ",":
           if((pitch <= -1)&&pitUnLock){
@@ -135,6 +136,12 @@ $("#inputArea").keydown(function(event){
           if(LongNote == 0){
             pitUnLock = true;
           };
+          if ((LongNote+(total%(2*meter)))===(2*meter)){
+            console.log(LongNote);
+            lenUnLock =false;
+          }else{
+            lenUnLock =true;
+          }
           break;
         case "1":
         case "2":
@@ -143,8 +150,10 @@ $("#inputArea").keydown(function(event){
         case "5":
         case "6":
         case "7":
+          total -= 1;
           for(var i = v.length-2; i >=0;i-- ){
             var note = v.charAt(i);
+            console.log(note,LongNote);
             switch (note){
               case ",":
                 pitch -= 1;
@@ -156,10 +165,17 @@ $("#inputArea").keydown(function(event){
                 LongNote += 1;
                 break;
             }
-            if (typeof(note) == "number"){
+            if (!isNaN(parseInt(note, 10))){
               break;
             }
 
+          }
+          total -= LongNote;
+          if ((LongNote+(total%(2*meter)))===(2*meter)){
+            console.log(LongNote);
+            lenUnLock =false;
+          }else{
+            lenUnLock =true;
           }
           $(this).iDelField(1);
           break;
@@ -199,6 +215,10 @@ $("#inputArea").keypress(function(event){
           LongNote += 1;
           pitUnLock = false;
         }
+        if ((LongNote+(total%(2*meter)))===(2*meter)){
+          console.log(LongNote);
+          lenUnLock =false;
+        }
         break;
       case "a": 
         if(LongNote >= 1){
@@ -208,49 +228,85 @@ $("#inputArea").keypress(function(event){
         if(LongNote == 0){
           pitUnLock = true;
         };
+        lenUnLock = true;
         console.log(LongNote)
         break;
       case "1": 
         $(this).iAddField("1");
+        if ((LongNote+1+total%(2*meter))===(2*meter)){
+          lenUnLock =false;
+        }else{
+          lenUnLock = true;
+        }
+        total = total+LongNote+1;
         LongNote = 0;
         pitUnLock = true;
-        lenUnLock = true;
         break;
       case "2": 
         $(this).iAddField("2");
+        if ((LongNote+1+total%(2*meter))===(2*meter)){
+          lenUnLock =false;
+        }else{
+          lenUnLock = true;
+        }
+        total = total+LongNote+1;
         LongNote = 0;
         pitUnLock = true;
-        lenUnLock = true;
         break;
       case "3": 
         $(this).iAddField("3");
+        if ((LongNote+1+total%(2*meter))===(2*meter)){
+          lenUnLock =false;
+        }else{
+          lenUnLock = true;
+        }
+        total = total+LongNote+1;
         LongNote = 0;
         pitUnLock = true;
-        lenUnLock = true;
         break;
       case "4": 
         $(this).iAddField("4");
+        if ((LongNote+1+total%(2*meter))===(2*meter)){
+          lenUnLock =false;
+        }else{
+          lenUnLock = true;
+        }
+        total = total+LongNote+1;
         LongNote = 0;
         pitUnLock = true;
-        lenUnLock = true;
         break;
       case "5": 
         $(this).iAddField("5");
+        if ((LongNote+1+total%(2*meter))===(2*meter)){
+          lenUnLock =false;
+        }else{
+          lenUnLock = true;
+        }
+        total = total+LongNote+1;
         LongNote = 0;
-        pitUnLock=true;
-        lenUnLock=true;
+        pitUnLock = true;
         break;
       case "6": 
         $(this).iAddField("6");
+        if ((LongNote+1+total%(2*meter))===(2*meter)){
+          lenUnLock =false;
+        }else{
+          lenUnLock = true;
+        }
+        total = total+LongNote+1;
         LongNote = 0;
-        pitUnLock=true;
-        lenUnLock=true;
+        pitUnLock = true;
         break;
       case "7": 
         $(this).iAddField("7");
+        if ((LongNote+1+total%(2*meter))===(2*meter)){
+          lenUnLock =false;
+        }else{
+          lenUnLock = true;
+        }
+        total = total+LongNote+1;
         LongNote = 0;
-        pitUnLock=true;
-        lenUnLock=true;
+        pitUnLock = true;
         break;
   }
   return false;
