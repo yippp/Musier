@@ -216,8 +216,9 @@ $("#inputArea").keypress(function(event){
           LongNote += 1;
           pitUnLock = false;
         }
+        console.log("LongNote",LongNote);
         if ((LongNote+(total%(2*meter)))===(2*meter)){
-          console.log(LongNote);
+          
           lenUnLock =false;
         }
         break;
@@ -348,7 +349,7 @@ $('#Title').change(function(){
 });
 
 $('#Meter').change(function(){
-  meter = $(this).val()+2;
+  meter = parseInt($(this).val())+2;
   console.log(meter);
 
 });
