@@ -93,10 +93,10 @@ var LongNote = 0,
     sharp = 0,
     total = 0,
     meter = parseInt($('#Meter').val())+2;
-console.log("meter",meter);
 var lenUnLock = false,
     pitUnLock = false,
-    sharpUnLock = false;
+    sharpUnLock = false,
+    n_bgn = false;
 $("#inputArea").keyup(function(evt) {
   var content = $(this).val();
   content = content.replace(/[^\x00-\xff]/g,"");
@@ -192,6 +192,7 @@ $("#inputArea").keypress(function(event){
   k = String.fromCharCode(k);
   switch(k){
       case "w": 
+        console.log(pitUnLock);
         if((pitch <= -1)&&pitUnLock){
           pitch += 1;
           $(this).iDelField(1);
@@ -221,6 +222,7 @@ $("#inputArea").keypress(function(event){
         }
         break;
       case "a": 
+        console.log(LongNote);
         if(LongNote >= 1){
           LongNote -= 1;
           $(this).iDelField(1);
@@ -228,8 +230,9 @@ $("#inputArea").keypress(function(event){
         if(LongNote == 0){
           pitUnLock = true;
         };
-        lenUnLock = true;
-        console.log(LongNote)
+        if (n_bgn){
+          lenUnLock = true;
+        }
         break;
       case "1": 
         $(this).iAddField("1");
@@ -241,6 +244,7 @@ $("#inputArea").keypress(function(event){
         total = total+LongNote+1;
         LongNote = 0;
         pitUnLock = true;
+        n_bgn = true;
         break;
       case "2": 
         $(this).iAddField("2");
@@ -252,6 +256,7 @@ $("#inputArea").keypress(function(event){
         total = total+LongNote+1;
         LongNote = 0;
         pitUnLock = true;
+        n_bgn = true;
         break;
       case "3": 
         $(this).iAddField("3");
@@ -263,6 +268,7 @@ $("#inputArea").keypress(function(event){
         total = total+LongNote+1;
         LongNote = 0;
         pitUnLock = true;
+        n_bgn = true;
         break;
       case "4": 
         $(this).iAddField("4");
@@ -274,6 +280,7 @@ $("#inputArea").keypress(function(event){
         total = total+LongNote+1;
         LongNote = 0;
         pitUnLock = true;
+        n_bgn = true;
         break;
       case "5": 
         $(this).iAddField("5");
@@ -285,6 +292,7 @@ $("#inputArea").keypress(function(event){
         total = total+LongNote+1;
         LongNote = 0;
         pitUnLock = true;
+        n_bgn = true;
         break;
       case "6": 
         $(this).iAddField("6");
@@ -296,6 +304,7 @@ $("#inputArea").keypress(function(event){
         total = total+LongNote+1;
         LongNote = 0;
         pitUnLock = true;
+        n_bgn = true;
         break;
       case "7": 
         $(this).iAddField("7");
@@ -307,7 +316,11 @@ $("#inputArea").keypress(function(event){
         total = total+LongNote+1;
         LongNote = 0;
         pitUnLock = true;
+        n_bgn = true;
         break;
+  }
+  if ($(this).val().length === 0){
+    n_bgn = false;
   }
   return false;
 });
