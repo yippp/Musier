@@ -353,5 +353,18 @@ $('#Meter').change(function(){
   console.log(meter);
 
 });
-
+$('#clear').click(function(){
+    LongNote = 0;
+    pitch = 0;
+    sharp = 0;
+    total = 0;
+    meter = parseInt($('#Meter').val())+2;
+    lenUnLock = false;
+    pitUnLock = false;
+    sharpUnLock = false;
+    n_bgn = false;
+    $('#inputArea').val("");
+    $("#Major").removeAttr("readonly");
+    $("#Meter").removeAttr("readonly");
+});
 
