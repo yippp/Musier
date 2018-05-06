@@ -199,6 +199,11 @@ $("#inputArea").keydown(function(event){
 $("#inputArea").keypress(function(event){
 
   var k = event.which; 
+  var v = $(this).val();
+  v = v.replace(/[']/g,"")
+  if (v.length === meter*4){
+    return false;
+  }
   
   k = String.fromCharCode(k);
   switch(k){

@@ -44,7 +44,7 @@
             </div>
           </div>
 
-          <div class="form-group col-lg-12 col-md-12">
+          <div class="form-group col-lg-12 col-md-12" id = "Ma">
             <label class="label-control control-label col-lg-4 col-md-4 col-sm-4">Major</label>
             <div class="col-lg-8 col-md-8 col-sm-8">
               <select id = "Major" class="form-control">
@@ -54,7 +54,7 @@
             </div>
           </div>
 
-        <div class="form-group col-lg-12 col-md-12">
+        <div class="form-group col-lg-12 col-md-12" id = "Me">
               <label class="label-control control-label col-lg-4 col-md-4 col-sm-4">Meter</label>
               <div class="col-lg-8 col-md-8 col-sm-8">
                 <select id = "Meter" class="form-control">
@@ -66,14 +66,14 @@
 
         <textarea class="form-control"  id="inputArea" style="margin-top: 100px;resize: none;" placeholder="Input your prefer melody here.(Simple musical notation.)
 e.g.12311231345345" rows = "3" form="notion_form"></textarea>
-        <div class="btn btn-default label-control col-sm-4 pull-right" id="clear">Clear
+        <div class="btn btn-default label-control col-sm-4 pull-right" style="margin-left: 67%" id="clear">Clear
         </div>
 
 
         <div class="instruction">
           Instruction:<br/>  
           <span class="ico_key">1</span>  ~  <span class="ico_key">7</span> :  musical notes for `do` to `ti`.<br/>
-          <span class="ico_key">W</span>  <span class="ico_key">S</span>  :  <br/>rise & drop an octave. e.g. `do` <--> `dŏ`<br/>
+          <span class="ico_key">W</span>  <span class="ico_key">S</span>  :  rise & drop an octave. e.g. `do` <--> `dŏ`<br/>
           <span class="ico_key">A</span>  <span class="ico_key">D</span>  :  shorten & extend half of the beat. e.g. 1 <--> 1.
         </div>
 
@@ -102,9 +102,12 @@ K:C
           <span >
             <input id="abccomfirm" type="checkbox" aria-label="...">
           </span>
-          I know what is <a href="http://abcnotation.com/blog/2009/12/23/how-to-get-started-with-abc-notation/" target="_Blank">ABC notion</a> is, and I want to edit my music sheet.
+          I know what <a href="http://abcnotation.com/blog/2009/12/23/how-to-get-started-with-abc-notation/" target="_Blank">ABC notion</a> is, and I want to edit my music sheet.
         </div>
       </div>
+
+      <div class="btn btn-default label-control col-sm-4 pull-right" style="margin-left: 67%" onclick="javascript:location.reload();" id="new">New Sheet
+        </div>
 
       </div></from>
 
@@ -159,12 +162,16 @@ K:C
             $('#editor-textarea').val(result.generated_notions);
             $('#editor-textarea').change();
             $('#TitleInput').show();
-            $("#submit").show();
             $('#midi_download_btn').show();
             $('#map_download').show();
             $('#waiting').hide();
             $("#Major").attr("readonly","readonly");
             $("#Meter").attr("readonly","readonly");
+            $("#Ma").hide();
+            $("#Me").hide();
+            $("#inputArea").hide();
+            $("#clear").hide();
+            $(".instruction").hide();
           },
           error: function(){
               alert("Oops! This is not likely to generate any melody.");
