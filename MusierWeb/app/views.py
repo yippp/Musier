@@ -38,7 +38,6 @@ def notionLoad(request):
 		bgn = True
 		sharp = False
 		flat = False
-		print(notions)
 		numDict=["1","^1","2","^2","3","4","^4","5","^5","6","^6","7"]
 		node = []
 		for note in notions:
@@ -69,9 +68,7 @@ def notionLoad(request):
 				node.append(None)
 				print(node)
 		notion += [num]+node
-		print(notion)
 		global Seq
-		print(Seq)
 		Seq = main_version_2(Meter, Major, notion)
 		print(Seq)
 		Seq_main = Seq[0].get_notes()

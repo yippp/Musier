@@ -94,7 +94,14 @@ var LongNote = 0,
 var lenUnLock = false,
     pitUnLock = false,
     sharpUnLock = false;
+$("#inputArea").keyup(function(evt) {
+  var content = $(this).val();
+  content = content.replace(/[^\x00-\xff]/g,"");
+  content = content.replace(/[A-Za-z\s]/g,"");
+  $(this).val(content);
+});    
 $("#inputArea").keydown(function(event){
+  console.log(event.keyCode)
   switch (event.keyCode) {
     case 46: // Delete
     case 8: // Backspace
