@@ -11,6 +11,7 @@ class unit:
         self.length = len(self.notes)
         self.chordID = chordID
         self.mutable = mutable
+        self.fix_chord = False
         self.chord_score = NULL_SCORE
         self.score = NULL_SCORE
 

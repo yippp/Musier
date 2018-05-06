@@ -108,6 +108,7 @@ def main_version_1(meter, major, user_input=None):
                 u.mutable = True
             if j == period_length - 1:
                 u.chordID = ENDING_CHORD[major]
+                u.fix_chord = True
             if (j == period_length - 1) or (j == period_length // 2 - 1):  # Ending units
                 u = SA_optimize(u, T_ORIGIN, DELTA, ITERATIONS, ending = True)
             else:
@@ -115,7 +116,7 @@ def main_version_1(meter, major, user_input=None):
             p.append(u)
         p = period(p)
         init_generation.append(p)
-    model = GABase(0.6, 0.02, init_generation, period_evaluation, major)
+    model = GABase(0.6, 0.03, init_generation, period_evaluation, major)
     for k in range(UPDATE_TIME):
         model.update_periods()
     return model.generation[0]
@@ -130,13 +131,14 @@ def main_version_2(meter, major, user_input=None):
     for i in range(POPULATION):
         p = deepcopy(primary)
         for j in range(p.length):
-            p[j].update_chord(meter)
+            if not p[j].fix_chord:
+                p[j].update_chord(meter)
             if (j == period_length - 1) or (j == period_length // 2 - 1):  # Ending units
                 p.units[j] = SA_optimize(p.units[j], T_ORIGIN, DELTA, ITERATIONS, vari=False, ending=True)
             else:
                 p.units[j] = SA_optimize(p.units[j], T_ORIGIN, DELTA, ITERATIONS, vari=False)
         init_generation.append(p)
-    model = GABase(0.6, 0.02, init_generation, period_evaluation, major)
+    model = GABase(0.6, 0.03, init_generation, period_evaluation, major)
     # for i in init_generation:
     #     for j in i:
     #         print(j.score, end = ' ')
@@ -151,8 +153,8 @@ def main_version_2(meter, major, user_input=None):
         u = primary[i]
         chord_note = []
         if i != primary.length - 1:
-            for i in range(meter):
-                chord_note.extend([CHORD_NOTE[meter][u.chordID][i] - 12, None])
+            for j in range(meter):
+                chord_note.extend([CHORD_NOTE[meter][u.chordID][j] - 12, None])
         else:
             chord_note.append(CHORD_NOTE[meter][u.chordID][0] - 12)
             chord_note.extend([None] * (meter * 2 - 1))

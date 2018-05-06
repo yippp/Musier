@@ -114,6 +114,7 @@ class GABase:
 
     def update_scores(self):
         self.sum_score = 0.0
+        self.least = 10000.0
         self.best_period = self.generation[0]
         for p in self.generation:
             p.score = self.period_evaluation(p, self.major)
@@ -122,3 +123,4 @@ class GABase:
                 self.best_period = p
             if self.least > p.score:
                 self.least = p.score
+        self.least -= 100
