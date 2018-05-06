@@ -64,6 +64,7 @@ def notionLoad(request):
 				num-=12;
 			elif note == "+":
 				node.append(None)
+		print(notion)
 		global Seq
 		print(Seq)
 		Seq = main_version_2(Meter, Major)
