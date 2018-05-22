@@ -93,7 +93,7 @@ Q: 1/4=150
 		##major track
 		generated_notions += '''V:1
 K:C
-%%MIDI program 25
+%%MIDI program 78
 '''
 		for i in range(len(Seq_main)):
 			if (Seq_main[i] == None):
@@ -121,7 +121,7 @@ K:C
 		generated_notions += '''
 V:2
 K:bass
-%%MIDI program 24
+%%MIDI program 46
 '''
 		for i in range(len(Seq_chord)):
 			if (Seq_chord[i] == None):

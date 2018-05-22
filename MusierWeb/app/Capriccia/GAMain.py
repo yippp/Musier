@@ -116,9 +116,10 @@ def main_version_1(meter, major, user_input=None):
             p.append(u)
         p = period(p)
         init_generation.append(p)
-    model = GABase(0.6, 0.03, init_generation, period_evaluation, major)
+    model = GABase(1.0, 0.03, init_generation, period_evaluation, major)
     for k in range(UPDATE_TIME):
         model.update_periods()
+        print(model.least, model.generation[0].score)
     return model.generation[0]
 
 
@@ -138,7 +139,7 @@ def main_version_2(meter, major, user_input=None):
             else:
                 p.units[j] = SA_optimize(p.units[j], T_ORIGIN, DELTA, ITERATIONS, vari=False)
         init_generation.append(p)
-    model = GABase(0.6, 0.03, init_generation, period_evaluation, major)
+    model = GABase(1.0, 0.03, init_generation, period_evaluation, major)
     # for i in init_generation:
     #     for j in i:
     #         print(j.score, end = ' ')
